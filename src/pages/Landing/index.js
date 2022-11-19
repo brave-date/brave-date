@@ -1,4 +1,5 @@
-import Header from "../components/Header";
+import Header from "../../components/Header";
+import SignUp from "../../components/SignUp";
 import { useState } from "react";
 import React from "react";
 import Box from "@mui/material/Box";
@@ -15,7 +16,7 @@ theme = responsiveFontSizes(theme);
 
 const Landing = () => {
   const [showSignUp, setShowSignUp] = useState(false);
-  const [, setIsSignUp] = useState(true);
+  const [isSignUp, setIsSignUp] = useState(true);
 
   const displaySignUp = () => {
     setShowSignUp(true);
@@ -65,6 +66,9 @@ const Landing = () => {
           </Box>
         </Box>
       </Box>
+      {showSignUp && (
+        <SignUp setShowSignUp={setShowSignUp} isSignUp={isSignUp} />
+      )}
     </Box>
   );
 };

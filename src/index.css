@@ -3,6 +3,7 @@
 }
 
 html {
+  background-color: #000;
   cursor: default;
   width: 100%;
   user-select: none;
@@ -130,7 +131,6 @@ body {
 .login-button-a:hover {
   background: #000;
   color: #fff;
-  opacity: 0.9;
 }
 
 .login-button-a-span {
@@ -357,4 +357,152 @@ body {
 .brave-date-colored-logo {
   width: 36px;
   height: 36px;
+}
+@keyframes heartbeat-animation {
+  0% {
+    transform: scale(0.75);
+  }
+  20% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.75);
+  }
+  60% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(0.75);
+  }
+  100% {
+    transform: scale(0.75);
+  }
+}
+.page-loader {
+  position: absolute;
+  left: 45%;
+  top: 45%;
+  border-radius: 16px;
+  z-index: 999;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: heartbeat-animation 1s infinite;
+}
+
+.model-login {
+  border-radius: 8px;
+  text-align: center;
+  background-color: #fff;
+  width: 410px;
+  height: auto;
+  position: absolute;
+  left: center;
+  top: 43px;
+  z-index: 1;
+  overflow: visible;
+  overflow-y: scroll;
+  background-color: #fff;
+  padding-bottom: 36px;
+  padding-top: 36px;
+  padding-left: 44px;
+  padding-right: 44px;
+  display: flex;
+}
+
+.model-login-inner {
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  position: relative;
+}
+
+.model-login-header-div {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 28px;
+  font-size: 0.95rem;
+  color: #21262e;
+}
+
+.model-login-header-div-terms-privacy-cookie:hover {
+  text-decoration: none;
+}
+
+.get-the-app-div {
+  margin-top: 24px;
+}
+
+.get-the-app-div-line-break {
+  border-width: 0;
+  margin: 0;
+  background-color: #d4d8de;
+  height: 1px;
+  margin-top: -1px;
+}
+
+.download-ios-android-div {
+  text-align: center;
+}
+
+.download-ios-android-div-inner {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+}
+
+.download-ios-android-div-inner-link-ios {
+  padding-right: 8px;
+  padding-left: 8px;
+  padding-bottom: 16px;
+  padding-top: 16px;
+  flex-basis: 50%;
+  margin-bottom: 0;
+  margin-top: 0;
+  display: inline-block;
+}
+
+.download-ios-android-div-inner-link-ios-img {
+  background-image: url("./images/d256a5b510a685030be375c63a9010e9.webp");
+  background-repeat: no-repeat;
+  background-size: 170px auto;
+  border-color: #ffff;
+  border-radius: 0px;
+  height: 60px;
+  position: relative;
+  background-position-y: 0px;
+}
+
+.download-ios-android-div-inner-link-android {
+  flex-basis: 50%;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 0;
+  display: inline-block;
+}
+
+.download-ios-android-div-inner-link-android-img {
+  background-image: url("./images/03aed264f8539c570e9bc80ba6b60d92.webp");
+  background-repeat: no-repeat;
+  background-size: 218px auto;
+  border-color: #ffff;
+  border-radius: 0px;
+  height: 90px;
+  position: relative;
+  background-position-x: 50%;
+  background-position-y: 40%;
+}
+
+.model-login-inner-close-div {
+  position: absolute;
+  top: 0;
+  padding: 20px;
+  right: 0;
+  display: block;
 }
