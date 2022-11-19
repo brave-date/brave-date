@@ -1,5 +1,7 @@
 # Brave Date
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/78f89ea8-00c2-4966-81c6-c601cf7f81dd/deploy-status)](https://app.netlify.com/sites/brave-date/deploys)
+
 ## Running locally with NPM
 
 - Fork/Clone the repo:
