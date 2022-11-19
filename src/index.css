@@ -1,0 +1,360 @@
+* {
+  scrollbar-width: none;
+}
+
+html {
+  cursor: default;
+  width: 100%;
+  user-select: none;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-family: ProximaNova, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+    Cantarell, Noto Sans, sans-serif, Helvetica, Arial, Segoe UI Emoji,
+    Segoe UI Symbol, Apple Color Emoji, Twemoji Mozilla, Noto Color Emoji,
+    EmojiOne Color, Android Emoji;
+  line-height: 1.3125;
+  width: 100%;
+  height: 100%;
+}
+.landing-page {
+  width: 100%;
+  height: 100%;
+  isolation: isolate;
+  position: abslute;
+  background-color: transparent;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0 0 8px 0 #0000001f;
+  margin-bottom: 20px;
+  display: flex;
+  flex: 1;
+}
+
+.language-login-div {
+  display: flex;
+  align-items: center;
+  -webkit-box-align: center;
+  justify-content: center;
+}
+
+.language-picker-div {
+  font-size: 2rem;
+  padding-right: 12px;
+  padding-left: 12px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+}
+
+@media screen and (max-width: 445px) {
+  .language-picker-div {
+    display: none;
+  }
+}
+
+.language-picker-div:hover {
+  text-decoration: underline;
+  color: #d6002f;
+  list-style-type: none;
+}
+
+.language-picker-button {
+  font-size: 1rem;
+  color: #fff;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  display: block;
+  text-transform: uppercase;
+  background: transparent;
+  border-color: #0000;
+}
+
+.language-picker-name-dark {
+  color: #000;
+}
+
+.language-logo {
+  color: #fff;
+  width: 16px;
+  height: 16px;
+  opacity: 0.9;
+  vertical-align: middle;
+  margin-right: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-button {
+  height: 40px;
+  padding-left: 28px;
+  padding-right: 28px;
+}
+
+.login-button-a {
+  touch-action: manipulation;
+  letter-spacing: 0.05em;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  margin-right: auto;
+  margin-left: auto;
+  cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+  padding-right: 24px;
+  padding-left: 24px;
+  padding-bottom: 0;
+  padding-top: 0;
+  border-radius: 19px;
+  border-color: transparent;
+  font-size: 1.15rem;
+  min-height: 40px;
+  background: #fff;
+  font-weight: 600;
+  color: #000;
+  text-decoration: none;
+}
+.login-button-a:hover {
+  background: #000;
+  color: #fff;
+  opacity: 0.9;
+}
+
+.login-button-a-span {
+  position: relative;
+  z-index: 1;
+}
+
+.header-div {
+  z-index: 1;
+  position: relative;
+  top: 0;
+  width: 100%;
+  display: flex;
+  min-height: 0;
+  transition-duration: 0.1s;
+  transition-property: background;
+  transition-timing-function: linear;
+  height: 96px;
+  color: #fff;
+  background: #0000;
+}
+
+.brave-date-logo-nav-div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  -webkit-box-align: center;
+  justify-content: space-between;
+  -webkit-box-pack: justify;
+  border-top-width: 0;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-bottom-width: 1px;
+  border-style: solid;
+  transition-property: border-color;
+  border-color: #0000;
+  transition-duration: 0ms;
+}
+
+.brave-date-nav-div {
+  height: 40px;
+  margin-right: 28px;
+  margin-left: 28px;
+  display: flex;
+  align-items: center;
+  -webkit-box-align: center;
+}
+
+.brave-date-logo-a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.brave-date-logo-a:focus {
+  outline: solid;
+  text-decoration: none;
+}
+
+.brave-date-logo {
+  width: 150px;
+  display: block;
+}
+
+.Hidden {
+  clip: rect(1px, 1px, 1px, 1px);
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  position: absolute !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.nav-ul {
+  display: flex;
+}
+
+@media screen and (max-width: 932px) {
+  .nav-ul {
+    display: none;
+  }
+}
+
+.nav-ul-li-li {
+  font-size: 1.15rem;
+  list-style-type: none;
+  text-align: left;
+}
+
+.nav-ul-li-li-a {
+  margin-right: 40px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #fff;
+}
+
+.nav-ul-li-li-a:hover {
+  cursor: pointer;
+  font-weight: 500;
+  color: #ff4458;
+  text-decoration: none;
+  border-bottom-width: 100%;
+  border-bottom-style: solid;
+  padding-bottom: 1px;
+  list-style-type: none;
+  position: relative;
+  bottom: 4px;
+}
+
+.ul-li {
+  list-style-type: none;
+  padding-bottom: 4px;
+  padding-top: 4px;
+  position: relative;
+}
+
+.nav-ul-li-a {
+  color: #fff;
+  font-weight: 800;
+}
+
+.background-image {
+  background-image: url("./images/ace5f41685f7c9161284576f885c2094-1.webp");
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  position: absolute;
+  pointer-events: none;
+  background-position: 50%;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.after-background-image {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  position: absolute;
+  background: linear-gradient(180deg, #000e, #0000);
+}
+
+.below-header {
+  opacity: 0.9;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  -webkit-box-align: center;
+}
+
+.below-header-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  min-height: 500px;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+}
+
+.swipe-right-div {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+}
+
+.swipe-right-div-h1 {
+  margin: 0;
+  color: #fff;
+  font-weight: 800;
+  font-size: 8vw;
+  line-height: 1.18;
+  text-align: center;
+}
+
+.create-account-div {
+  display: flex;
+  color: #fff;
+  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  width: 100%;
+  align-items: center;
+  -webkit-box-align: center;
+}
+
+.create-account-button {
+  width: 260px;
+  min-height: 55px;
+  margin-top: 20px;
+  margin-right: auto;
+  margin-left: auto;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition-property: background;
+  transition-duration: 0.2s;
+  font-weight: 600;
+  background: linear-gradient(45deg, #fd267a, #ff6036);
+  background-size: auto;
+  background-origin: padding-box;
+  background-clip: border-box;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px 0 #656e7b1f;
+  font-family: inherit;
+  line-height: inherit;
+}
+
+.create-account-button:hover {
+  background: linear-gradient(235deg, #fd267a, #ff6036);
+}
+
+.brave-date-colored-logo {
+  width: 36px;
+  height: 36px;
+}
