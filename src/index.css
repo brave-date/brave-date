@@ -3,7 +3,6 @@
 }
 
 html {
-  background-color: #000;
   cursor: default;
   width: 100%;
   user-select: none;
@@ -182,6 +181,7 @@ body {
 
 .brave-date-logo-a {
   color: inherit;
+  width: 160px;
   text-decoration: none;
 }
 
@@ -190,6 +190,10 @@ body {
   text-decoration: none;
 }
 
+.tinder-colored-logo {
+  width: 500px;
+  height: 500px;
+}
 .brave-date-logo {
   width: 150px;
   display: block;

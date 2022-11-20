@@ -110,7 +110,6 @@ const SignUp = ({ setShowSignUp, isSignUp }) => {
                 sx={{
                   left: "-5%",
                   width: "100%",
-                  "& .MuiInputLabel-root": { color: "green" },
                   "& .MuiOutlinedInput-root": {
                     "& > fieldset": {
                       borderRadius: "100px",
@@ -123,7 +122,7 @@ const SignUp = ({ setShowSignUp, isSignUp }) => {
                     },
                   },
                 }}
-                placeholder="   email"
+                placeholder="email"
                 required={true}
                 onChange={(e) => setEmail(e.target.value)}
               />
