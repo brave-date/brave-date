@@ -38,7 +38,9 @@ const OnBoarding = () => {
     //TODO: get email and password from location
     setPersonelInfo((prevState) => ({
       ...prevState,
+      // eslint-disable-next-line
       ["email"]: location.state.email,
+      // eslint-disable-next-line
       ["password"]: location.state.password,
     }));
     console.log("personelInfo : ", personelInfo);
@@ -62,7 +64,9 @@ const OnBoarding = () => {
     const formattedDate = moment(date).format("DD-MM-YYYY");
     setPersonelInfo((prevState) => ({
       ...prevState,
+      // eslint-disable-next-line
       ["birthday"]: formattedDate,
+      // eslint-disable-next-line
       ["date"]: date,
     }));
   };
