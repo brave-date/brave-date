@@ -4,7 +4,12 @@ import Link from "@mui/material/Link";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Button from "@mui/material/Button";
-import { languagePicker, languagePickerDark } from "../../icons";
+import {
+  languagePicker,
+  languagePickerDark,
+  tinderLogoColored,
+  tinderLogo,
+} from "../../icons";
 
 const Header = ({ landing, showSignUp, setShowSignUp, setIsSignUp }) => {
   const displaySignUp = () => {
@@ -17,14 +22,7 @@ const Header = ({ landing, showSignUp, setShowSignUp, setIsSignUp }) => {
       <Box className="brave-date-logo-nav-div">
         <Box className="brave-date-nav-div">
           <Link className="brave-date-logo-a" href="#">
-            <Box
-              component="img"
-              sx={{
-                height: "180px",
-              }}
-              alt="Brave Date Logo"
-              src="./android-chrome-512x512.png"
-            />
+            {landing ? tinderLogo() : tinderLogoColored()}
           </Link>
           <Box component="span" className="Hidden">
             Brave Date
