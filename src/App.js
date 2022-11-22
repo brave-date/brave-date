@@ -5,6 +5,7 @@ import PageLoader from "./components/PageLoader";
 const App = () => {
   const Landing = lazy(() => import("./pages/Landing"));
   const OnBoarding = lazy(() => import("./pages/OnBoarding"));
+  const Recognition = lazy(() => import("./pages/Recognition"));
 
   return (
     <BrowserRouter>
@@ -12,6 +13,7 @@ const App = () => {
         <Routes>
           <Route exact path="/" element={<Landing />} />
           <Route exact path="/app/onboarding" element={<OnBoarding />} />
+          <Route exact path="/app/recs" element={<Recognition />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

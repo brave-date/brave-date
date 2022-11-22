@@ -1,11 +1,21 @@
 * {
   scrollbar-width: none;
+  user-select: none;
 }
 
 html {
   cursor: default;
   width: 100%;
   user-select: none;
+}
+#root {
+  position: absolute;
+  display: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -509,4 +519,290 @@ body {
   padding: 20px;
   right: 0;
   display: block;
+}
+
+.in-build-app-container {
+  margin-left: -8px;
+  margin-top: -8px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: #fff;
+  color: #000;
+  border-radius: 4;
+  flex-direction: row;
+  overflow: hidden;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2), 0px 2px 1px rgba(0, 0, 0, 0.12),
+    0px 1px 1px rgba(0, 0, 0, 0.14);
+}
+
+.in-build-app-sidebar {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  background-color: #fff;
+  width: 360px;
+  border-right: 1px solid grey;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2), 0px 2px 1px rgba(0, 0, 0, 0.12),
+    0px 1px 1px rgba(0, 0, 0, 0.14);
+  height: 100%;
+  transition: all 0.3s ease;
+  overflow: auto;
+}
+.in-build-app-main-content {
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  background-color: 171616;
+}
+
+.side-bar-header-root {
+  padding-left: 10px;
+  color: #fff;
+  background: linear-gradient(45deg, #fd267a, #ff6036);
+}
+.custom-user-info {
+  width: 300px;
+  height: 90px;
+  display: flex;
+  color: black;
+  flex-direction: row;
+  align-items: center;
+}
+.custom-buttons {
+  position: relative;
+  right: -90px;
+}
+
+.back-btn {
+  margin-right: 10px;
+  margin-left: -12px;
+}
+
+.tab-container {
+  margin-top: -12px;
+  padding-left: 10px;
+  border-bottom: rgba(0, 0, 0, 0.06);
+  background-color: #fff;
+}
+.tab-container .MuiSvgIcon-root {
+  color: #000;
+}
+.tab-root {
+  font-size: 12px;
+  font-weight: 600;
+  color: #000;
+  letter-spacing: 1.25px;
+  min-width: 20px;
+  width: 33.3%;
+}
+
+.main-box-root {
+  flex: 1;
+  display: flex;
+  overflow-y: inherit;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(2, 2, 2, 0.05);
+}
+
+.main-box-title {
+  font-size: 16px;
+  color: #fff;
+  font-weight: bold;
+}
+
+/*----------------sidebar----------------*/
+
+@media screen and (min-width: 960px) {
+  .user-sub-title {
+    font-size: 12px;
+  }
+  .menu-root .MuiMenu-list {
+    padding: 24px;
+  }
+}
+
+.user-root {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 12px;
+  margin-left: 1px;
+}
+
+@keyframes rectangle-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(17deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-17deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.rectangle-animation {
+  display: inline-block;
+  width: 117px;
+  height: 170px;
+  background: linear-gradient(45deg, #fd267a, #ff6036);
+  border-radius: 10px;
+  animation-name: rectangle-rotate;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-delay: 0;
+  animation-iteration-count: 1;
+}
+.no-records-root {
+  height: 100%;
+}
+.no-records-root-inner {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 50px;
+}
+
+.matches-message {
+  opacity: 0.6;
+}
+
+.swipe {
+  position: absolute;
+}
+
+.cardContainer {
+  width: 90vw;
+  max-width: 260px;
+  height: 300px;
+}
+
+.card {
+  position: relative;
+  background-color: #fff;
+  width: 80vw;
+  max-width: 260px;
+  height: 300px;
+  box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+}
+
+.cardContent {
+  width: 100%;
+  height: 100%;
+}
+
+.swipe:last-of-type {
+}
+
+.card h3 {
+  position: absolute;
+  bottom: 0;
+  margin: 10px;
+  color: #fff;
+}
+
+.infoText {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  color: #fff;
+  animation-name: popup;
+  animation-duration: 800ms;
+}
+
+.buttons {
+  margin: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 625px) {
+  .buttons {
+    flex-direction: column;
+  }
+}
+
+.buttons button {
+  flex-shrink: 0;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  background-color: #9198e5;
+  transition: 200ms;
+  margin: 10px;
+  font-weight: bolder;
+  width: 160px;
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+}
+
+.buttons button:hover {
+  transform: scale(1.05);
+}
+
+@keyframes popup {
+  0% {
+    transform: scale(1, 1);
+  }
+  10% {
+    transform: scale(1.1, 1.1);
+  }
+  30% {
+    transform: scale(0.9, 0.9);
+  }
+  50% {
+    transform: scale(1, 1);
+  }
+  57% {
+    transform: scale(1, 1);
+  }
+  64% {
+    transform: scale(1, 1);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+/*-----------------rec page--------------------*/
+
+@media screen and (max-width: 640px) {
+  .in-build-app-container,
+  .in-build-app-sidebar {
+    width: 100%;
+  }
+  .in-build-app-main-content {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #2d2b2b;
+    left: 0px;
+    top: 0px;
+    z-index: 3;
+  }
+  .custom-buttons {
+    position: absolute;
+    right: 2px;
+  }
+}
+
+@media screen and (max-width: 334px) {
+  .custom-buttons {
+    display: none;
+  }
 }
