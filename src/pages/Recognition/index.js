@@ -4,6 +4,7 @@ import SidebarHeader from "../../components/SideBar/SidebarHeader";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import MatchesList from "../../components/SideBar/MatchesList";
+import MessagesList from "../../components/SideBar/MessagesList";
 import MainContainer from "../../components/MainContainer";
 //import MessagesList from "./MessagesList";
 //TODO: redux selectors
@@ -93,10 +94,10 @@ const Sidebar = () => {
             onMatchesSelect={onMatchesSelect}
           />
         ) : (
-          <MatchesList
+          <MessagesList
             currentUser={thisCurrentUser}
-            matches={currentMatches}
-            onMatchesSelect={onMatchesSelect}
+            messages={currentMatches}
+            onMessagesSelect={onMatchesSelect}
           />
         )}
       </Box>

@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import CustomAvatar from "../../CustomAvatar";
 import IconButton from "@mui/material/IconButton";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import ShieldIcon from "@mui/icons-material/Shield";
+import SafetyDialog from "../../SafetyDialog";
+
 const SidebarHeader = ({ user }) => {
+  const [dialogStatus, setDialogStatus] = useState(false);
+
+  const openSafetyDialog = () => {
+    setDialogStatus(true);
+  };
+
+  const closeSafetyDialog = () => {
+    setDialogStatus(false);
+  };
+
   return (
     <Box className="side-bar-header-root">
       <Box className="user-root">
@@ -75,6 +87,7 @@ const SidebarHeader = ({ user }) => {
                   backgroundColor: "black",
                 },
               }}
+              onClick={openSafetyDialog}
             >
               <ShieldIcon
                 sx={{
@@ -86,6 +99,10 @@ const SidebarHeader = ({ user }) => {
               />
             </IconButton>
           </Box>
+          <SafetyDialog
+            dialogStatus={dialogStatus}
+            handleClose={closeSafetyDialog}
+          />
         </Box>
       </Box>
     </Box>
