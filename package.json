@@ -21,7 +21,7 @@
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
     "react-tinder-card": "^1.6.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^3.1.0"
   },
   "scripts": {
     "start": "react-scripts --max_old_space_size=4096 start",
