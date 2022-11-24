@@ -831,3 +831,9 @@ body {
   );
   box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.3);
 }
+
+.closeButtonLogo {
+  border: 5px solid grey;
+  border-radius: 30px;
+  padding: 3px;
+}

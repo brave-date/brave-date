@@ -6,25 +6,85 @@ import { closeButtonLogo } from "../../icons";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import MailIcon from "@mui/icons-material/Mail";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import LockIcon from "@mui/icons-material/Lock";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import isValidEmail from "../Helper";
+import { JWTAuth } from "../../api/AuthAPI";
+import { useDispatch } from "react-redux";
 import React from "react";
 
 const SignUp = ({ setShowSignUp, isSignUp }) => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+    showPassword: false,
+  });
+
+  const [errorValues, setErrorValues] = useState({
+    emailError: "",
+    passwordError: "",
+  });
+
+  const dispatch = useDispatch();
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleErrorChange = (prop) => (event) => {
+    if (typeof event == "string")
+      setErrorValues({ ...errorValues, [prop]: event });
+    else setErrorValues({ ...errorValues, [prop]: event.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const onClick = async (e) => {
+    e.preventDefault();
+    if (!isValidEmail(values.email)) {
+      handleErrorChange("emailError")("Email address must be valid!");
+    } else if (!values.password) {
+      handleErrorChange("passwordError")("Password is required!");
+    } else {
+      if (!isSignUp) {
+        //remove it later once backend is finished
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            email: values.email,
+          })
+        );
+        dispatch(
+          JWTAuth.onLogin({
+            email: values.email,
+            password: values.password,
+            navigate,
+          })
+        );
+      } else {
+        navigate("/app/onboarding", {
+          state: { email: values.email, password: values.password },
+        });
+      }
+    }
+  };
 
   const closeSignUp = () => {
     setShowSignUp(false);
-  };
-
-  const toOnBoarding = async (e) => {
-    e.preventDefault();
-    if (isSignUp) {
-      navigate("/app/onboarding", {
-        state: { email: email, password: password },
-      });
-      window.location.reload();
-    }
   };
 
   return (
@@ -104,7 +164,7 @@ const SignUp = ({ setShowSignUp, isSignUp }) => {
                 position: "relative",
                 left: "30px",
               }}
-              onSubmit={toOnBoarding}
+              onClick={onClick}
             >
               <TextField
                 sx={{
@@ -124,7 +184,30 @@ const SignUp = ({ setShowSignUp, isSignUp }) => {
                 }}
                 placeholder="email"
                 required={true}
-                onChange={(e) => setEmail(e.target.value)}
+                value={values.email}
+                onChange={(e) => {
+                  handleChange("email")(e);
+                  handleErrorChange("emailError")("");
+                }}
+                helperText={errorValues.emailError}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start" variant="standard">
+                      <IconButton aria-label="Email" edge="end" disabled>
+                        <MailIcon
+                          sx={{
+                            padding: "10px",
+                            left: "10px",
+                            top: "25px",
+                            "& > *": {
+                              color: "black",
+                            },
+                          }}
+                        />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
 
               <TextField
@@ -144,10 +227,67 @@ const SignUp = ({ setShowSignUp, isSignUp }) => {
                   },
                 }}
                 variant="outlined"
-                placeholder="   password"
-                type="password"
+                placeholder="password"
+                type={values.showPassword ? "text" : "password"}
                 required={true}
-                onChange={(e) => setPassword(e.target.value)}
+                value={values.password}
+                onChange={(e) => {
+                  handleChange("password")(e);
+                  handleErrorChange("passwordError")("");
+                }}
+                helperText={errorValues.passwordError}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {values.showPassword ? (
+                          <VisibilityOff
+                            sx={{
+                              padding: "10px",
+                              left: "10px",
+                              top: "25px",
+                              "& > *": {
+                                color: "black",
+                              },
+                            }}
+                          />
+                        ) : (
+                          <Visibility
+                            sx={{
+                              padding: "10px",
+                              left: "10px",
+                              top: "25px",
+                              "& > *": {
+                                color: "black",
+                              },
+                            }}
+                          />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                  startAdornment: (
+                    <InputAdornment position="start" variant="standard">
+                      <IconButton aria-label="Email" edge="end" disabled>
+                        <LockIcon
+                          sx={{
+                            padding: "10px",
+                            left: "10px",
+                            top: "25px",
+                            "& > *": {
+                              color: "black",
+                            },
+                          }}
+                        />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
 
               <Box
@@ -158,7 +298,7 @@ const SignUp = ({ setShowSignUp, isSignUp }) => {
               >
                 <Button
                   type="submit"
-                  disabled={!email || !password}
+                  disabled={!isValidEmail(values.email) || !values.password}
                   sx={{
                     position: "relative",
                     left: "10px",

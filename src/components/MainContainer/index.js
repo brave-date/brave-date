@@ -151,7 +151,8 @@ const MainContainer = () => {
                       NOPE
                     </Box>
                   ) : null}
-                  {currentDirection === "right" && currentIndex === index - 1 ? (
+                  {currentDirection === "right" &&
+                  currentIndex === index - 1 ? (
                     <Box
                       variant="span"
                       sx={{
