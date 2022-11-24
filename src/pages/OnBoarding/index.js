@@ -1,6 +1,5 @@
 import Header from "../../components/Header";
 import React, { useState, useEffect, useMemo } from "react";
-import { useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -15,10 +14,13 @@ import FormGroup from "@mui/material/FormGroup";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DatePicker } from "@mui/x-date-pickers";
+import { JWTAuth } from "../../api/AuthAPI";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import moment from "moment";
-
 import { useDropzone } from "react-dropzone";
 
+// TODO: move all css objects into index.css file
 const buttonStyle = {
   position: "relative",
   top: "105px",
@@ -98,7 +100,13 @@ const img = {
 };
 
 const OnBoarding = () => {
+  const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
+
   let [personelInfo, setPersonelInfo] = useState({
+    email: user["email"],
+    password: user["password"],
     first_name: "",
     birthday: "",
     date: "",
@@ -107,28 +115,14 @@ const OnBoarding = () => {
     gender_interest: "woman",
     url: "",
     about: "",
-    matches: [""],
   });
 
-  const location = useLocation();
-
   const handleSubmit = async (e) => {
-    //TODO: get email and password from location
-    setPersonelInfo((prevState) => ({
-      ...prevState,
-      // eslint-disable-next-line
-      ["email"]: location.state.email,
-      // eslint-disable-next-line
-      ["password"]: location.state.password,
-    }));
-    console.log("personelInfo : ", personelInfo);
     e.preventDefault();
-
-    //TODO: Redux dispatch personelInfo
+    dispatch(JWTAuth.onRegister({ personelInfo: personelInfo, navigate }));
   };
 
   const handleChange = (e) => {
-    console.log(e.target.name, ": ", e.target.value);
     const value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
     const name = e.target.name;
@@ -516,8 +510,7 @@ const OnBoarding = () => {
               id="about"
               type="text"
               name="about"
-              required={true}
-              placeholder="text@text.com"
+              placeholder={user["email"]}
               sx={{
                 marginBottom: "10px",
                 "& .MuiOutlinedInput-root": {
