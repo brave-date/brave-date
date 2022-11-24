@@ -16,7 +16,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DatePicker } from "@mui/x-date-pickers";
 import { JWTAuth } from "../../api/AuthAPI";
 import { useDispatch } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import moment from "moment";
 import { useDropzone } from "react-dropzone";
 
@@ -104,9 +104,7 @@ const OnBoarding = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  let [personelInfo, setPersonelInfo] = useState({
-    email: location.state.email,
-    password: location.state.password,
+  const [personelInfo, setPersonelInfo] = useState({
     first_name: "",
     birthday: "",
     date: "",
@@ -118,6 +116,7 @@ const OnBoarding = () => {
   });
 
   const handleSubmit = async (e) => {
+    const userInfo = location.state;
     e.preventDefault();
     //remove it later once backend is finished
     localStorage.setItem(
@@ -126,7 +125,16 @@ const OnBoarding = () => {
         email: location.state.email,
       })
     );
-    dispatch(JWTAuth.onRegister({ personelInfo: personelInfo, navigate }));
+    dispatch(
+      JWTAuth.onRegister({
+        personelInfo: {
+          ...personelInfo,
+          email: userInfo.email,
+          password: userInfo.password,
+        },
+        navigate,
+      })
+    );
   };
 
   const handleChange = (e) => {
@@ -198,41 +206,426 @@ const OnBoarding = () => {
   useEffect(() => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, [files]);
-  return (
-    <>
-      <Header
-        landing={false}
-        showSignUp={false}
-        src={"../../android-chrome-512x512.png"}
-        setShowSignUp={() => {}}
-        setIsSignUp={() => {}}
-      />
-      <Typography
-        variant="h5"
-        sx={{
-          borderTop: "solid 1px rgb(213, 213, 213)",
-          cursor: "default",
-          left: "100px",
-          display: "flex",
-          justifyContent: "center",
-          fontStyle: "italic",
-          paddingTop: "25px",
-          fontWeight: "800",
-        }}
-      >
-        CREATE ACCOUNT
-      </Typography>
 
-      <Box sx={{ justifyContent: "center", display: "flex" }}>
-        <Box
-          component="form"
-          autoComplete="off"
+  if (!(location.state && "email" in location.state)) {
+    return <Navigate to={"/"} replace />;
+  } else {
+    return (
+      <>
+        <Header
+          landing={false}
+          showSignUp={false}
+          src={"../../android-chrome-512x512.png"}
+          setShowSignUp={() => {}}
+          setIsSignUp={() => {}}
+        />
+        <Typography
+          variant="h5"
           sx={{
+            borderTop: "solid 1px rgb(213, 213, 213)",
+            cursor: "default",
+            left: "100px",
             display: "flex",
             justifyContent: "center",
+            fontStyle: "italic",
+            paddingTop: "25px",
+            fontWeight: "800",
           }}
-          onSubmit={handleSubmit}
         >
+          CREATE ACCOUNT
+        </Typography>
+
+        <Box sx={{ justifyContent: "center", display: "flex" }}>
+          <Box
+            component="form"
+            autoComplete="off"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+            onSubmit={handleSubmit}
+          >
+            <Box
+              component="section"
+              autoComplete="off"
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "20px",
+                width: "35",
+                textAlign: "start",
+              }}
+              onSubmit={handleSubmit}
+            >
+              <Typography variant="label">First Name</Typography>
+              <TextField
+                id="first_name"
+                type="text"
+                name="first_name"
+                placeholder="First Name"
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "& > fieldset": {
+                      padding: "15px 30px",
+                      margin: "10px 0",
+                      fontSize: "15px",
+                      border: "solid 2px rgb(219, 219, 219)",
+                      borderRadius: "10px",
+                    },
+                  },
+                }}
+                required={true}
+                value={personelInfo.first_name}
+                onChange={handleChange}
+              />
+
+              <FormLabel
+                sx={{
+                  padding: "10px",
+                  borderRadius: "10px",
+                  transition: "all 0.3s",
+                  color: "#000",
+                  margin: "0px",
+                  marginLeft: "-10px",
+                }}
+              >
+                Birthday
+              </FormLabel>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  disableToolbar
+                  renderInput={(params) => <TextField {...params} />}
+                  variant="inline"
+                  views={["day"]}
+                  sx={{
+                    borderColor: "#fff",
+                  }}
+                  inputFormat="DD/MM/YYYY"
+                  id="date-picker-inline"
+                  value={personelInfo.date}
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </LocalizationProvider>
+
+              <FormControl>
+                <FormLabel
+                  sx={{
+                    padding: "10px",
+                    borderRadius: "10px",
+                    transition: "all 0.3s",
+                    color: "#000",
+                    margin: "0px",
+                    marginLeft: "-10px",
+                    marginTop: "0px",
+                    "&.MuiFormControlLabel:checked": {
+                      color: "red",
+                    },
+                  }}
+                >
+                  Gender
+                </FormLabel>
+                <RadioGroup row name="position" defaultValue="top">
+                  <FormControlLabel
+                    id="man-gender-identity"
+                    name="gender_identity"
+                    value="man"
+                    sx={{
+                      marginLeft: "0px",
+                      padding: "15px",
+                      paddingTop: "7px",
+                      paddingBottom: "7px",
+                      borderRadius: "5px",
+                      color: "#000",
+                      border: "solid 1px #000",
+                      "&:hover": {
+                        color: "#d6002f",
+                        border: "solid 1px #d6002f",
+                      },
+                    }}
+                    onChange={handleChange}
+                    checked={personelInfo.gender_identity === "man"}
+                    control={<Radio sx={{ display: "none" }} />}
+                    label="Man"
+                    labelPlacement="end"
+                  />
+                  <FormControlLabel
+                    id="woman-gender-identity"
+                    name="gender_identity"
+                    value="woman"
+                    onChange={handleChange}
+                    sx={{
+                      marginLeft: "0px",
+                      padding: "15px",
+                      paddingTop: "7px",
+                      paddingBottom: "7px",
+                      borderRadius: "5px",
+                      color: "#000",
+                      border: "solid 1px #000",
+                      "&:hover": {
+                        color: "#d6002f",
+                        border: "solid 1px #d6002f",
+                      },
+                    }}
+                    checked={personelInfo.gender_identity === "woman"}
+                    control={<Radio sx={{ display: "none" }} />}
+                    label="Woman"
+                    labelPlacement="end"
+                  />
+                  <FormControlLabel
+                    id="more-gender-identity"
+                    name="gender_identity"
+                    value="more"
+                    onChange={handleChange}
+                    sx={{
+                      marginLeft: "0px",
+                      padding: "15px",
+                      paddingTop: "7px",
+                      paddingBottom: "7px",
+                      borderRadius: "5px",
+                      color: "#000",
+                      border: "solid 1px #000",
+                      "&:hover": {
+                        color: "#d6002f",
+                        border: "solid 1px #d6002f",
+                      },
+                    }}
+                    checked={personelInfo.gender_identity === "other"}
+                    control={<Radio sx={{ display: "none" }} />}
+                    label="Other"
+                    labelPlacement="end"
+                  />
+                </RadioGroup>
+              </FormControl>
+
+              <FormControl component="fieldset">
+                <FormGroup row>
+                  <FormControlLabel
+                    value="top"
+                    id="show-gender"
+                    name="show_gender"
+                    onChange={handleChange}
+                    checked={personelInfo.show_gender}
+                    control={<Checkbox />}
+                    label="Show my gender on my profile"
+                    labelPlacement="end"
+                    sx={{
+                      padding: "10px",
+                      borderRadius: "10px",
+                      transition: "all 0.3s",
+                      color: "#000",
+                      margin: "0px",
+                      marginLeft: "-21px",
+                      marginTop: "10px",
+                    }}
+                  />
+                </FormGroup>
+              </FormControl>
+
+              <FormControl>
+                <FormLabel
+                  sx={{
+                    padding: "10px",
+                    borderRadius: "10px",
+                    transition: "all 0.3s",
+                    color: "#000",
+                    margin: "0px",
+                    marginLeft: "-10px",
+                    marginTop: "0px",
+                  }}
+                >
+                  Show Me
+                </FormLabel>
+                <RadioGroup row name="position" defaultValue="top">
+                  <FormControlLabel
+                    id="man-gender-interest"
+                    name="gender_interest"
+                    value="man"
+                    onChange={handleChange}
+                    checked={personelInfo.gender_interest === "man"}
+                    control={<Radio sx={{ display: "none" }} />}
+                    label="Man"
+                    labelPlacement="end"
+                    sx={{
+                      marginLeft: "0px",
+                      padding: "15px",
+                      paddingTop: "7px",
+                      paddingBottom: "7px",
+                      borderRadius: "5px",
+                      color: "#000",
+                      border: "solid 1px #000",
+                      "&:hover": {
+                        color: "#d6002f",
+                        border: "solid 1px #d6002f",
+                      },
+                    }}
+                  />
+                  <FormControlLabel
+                    id="woman-gender-interest"
+                    name="gender_interest"
+                    value="woman"
+                    onChange={handleChange}
+                    checked={personelInfo.gender_interest === "woman"}
+                    control={<Radio sx={{ display: "none" }} />}
+                    label="Woman"
+                    labelPlacement="end"
+                    sx={{
+                      marginLeft: "0px",
+                      padding: "15px",
+                      paddingTop: "7px",
+                      paddingBottom: "7px",
+                      borderRadius: "5px",
+                      color: "#000",
+                      border: "solid 1px #000",
+                      "&:hover": {
+                        color: "#d6002f",
+                        border: "solid 1px #d6002f",
+                      },
+                    }}
+                  />
+                  <FormControlLabel
+                    id="everyone-gender-interest"
+                    type="radio"
+                    name="gender_interest"
+                    value="everyone"
+                    onChange={handleChange}
+                    checked={personelInfo.gender_interest === "everyone"}
+                    control={<Radio sx={{ display: "none" }} />}
+                    label="Everyone"
+                    labelPlacement="end"
+                    sx={{
+                      marginLeft: "0px",
+                      padding: "15px",
+                      paddingTop: "7px",
+                      paddingBottom: "7px",
+                      borderRadius: "5px",
+                      color: "#000",
+                      border: "solid 1px #000",
+                      "&:hover": {
+                        color: "#d6002f",
+                        border: "solid 1px #d6002f",
+                      },
+                    }}
+                  />
+                </RadioGroup>
+              </FormControl>
+              <FormLabel
+                sx={{
+                  padding: "10px",
+                  borderRadius: "10px",
+                  transition: "all 0.3s",
+                  color: "#000",
+                  margin: "0px",
+                  marginLeft: "-10px",
+                  marginTop: "10px",
+                }}
+              >
+                Email Address
+              </FormLabel>
+              <TextField
+                disabled
+                id="about"
+                type="text"
+                name="about"
+                placeholder={location.state ? location.state.email : ""}
+                sx={{
+                  marginBottom: "10px",
+                  "& .MuiOutlinedInput-root": {
+                    "& > fieldset": {
+                      padding: "15px 30px",
+                      margin: "10px 0",
+                      fontSize: "15px",
+                      border: "solid 2px rgb(219, 219, 219)",
+                      borderRadius: "10px",
+                    },
+                  },
+                }}
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  borderTop: "solid 1px rgb(213, 213, 213)",
+                  cursor: "default",
+                  left: "100px",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontStyle: "italic",
+                  paddingTop: "10px",
+                  fontWeight: "800",
+                }}
+              >
+                Optional
+              </Typography>
+              <FormLabel
+                sx={{
+                  padding: "10px",
+                  borderRadius: "10px",
+                  transition: "all 0.3s",
+                  color: "#000",
+                  margin: "0px",
+                  marginLeft: "-10px",
+                  marginTop: "10px",
+                }}
+              >
+                Passion
+              </FormLabel>
+              <TextField
+                id="about"
+                type="text"
+                name="about"
+                required={true}
+                placeholder="Potterhead"
+                value={personelInfo.about}
+                onChange={handleChange}
+                sx={{
+                  marginBottom: "10px",
+                  "& .MuiOutlinedInput-root": {
+                    "& > fieldset": {
+                      padding: "15px 30px",
+                      margin: "10px 0",
+                      fontSize: "15px",
+                      border: "solid 2px rgb(219, 219, 219)",
+                      borderRadius: "10px",
+                    },
+                  },
+                }}
+              />
+
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Button
+                  type="submit"
+                  sx={{
+                    cursor: "pointer",
+                    backgroundColor: "#d6002f",
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: "#d6002f",
+                    },
+                    "&:disabled": {
+                      cursor: "default",
+                      backgroundColor: "#656e7b",
+                      color: "#fff",
+                    },
+                  }}
+                  disabled={
+                    !personelInfo.first_name ||
+                    !personelInfo.birthday ||
+                    !personelInfo.url ||
+                    !personelInfo.about
+                  }
+                >
+                  Continue
+                </Button>
+              </Box>
+            </Box>
+          </Box>
           <Box
             component="section"
             autoComplete="off"
@@ -240,433 +633,53 @@ const OnBoarding = () => {
               display: "flex",
               flexDirection: "column",
               padding: "20px",
-              width: "35",
-              textAlign: "start",
             }}
             onSubmit={handleSubmit}
           >
-            <Typography variant="label">First Name</Typography>
-            <TextField
-              id="first_name"
-              type="text"
-              name="first_name"
-              placeholder="First Name"
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& > fieldset": {
-                    padding: "15px 30px",
-                    margin: "10px 0",
-                    fontSize: "15px",
-                    border: "solid 2px rgb(219, 219, 219)",
-                    borderRadius: "10px",
-                  },
-                },
-              }}
-              required={true}
-              value={personelInfo.first_name}
-              onChange={handleChange}
-            />
-
-            <FormLabel
-              sx={{
-                padding: "10px",
-                borderRadius: "10px",
-                transition: "all 0.3s",
-                color: "#000",
-                margin: "0px",
-                marginLeft: "-10px",
-              }}
-            >
-              Birthday
-            </FormLabel>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                disableToolbar
-                renderInput={(params) => <TextField {...params} />}
-                variant="inline"
-                views={["day"]}
-                sx={{
-                  borderColor: "#fff",
-                }}
-                inputFormat="DD/MM/YYYY"
-                id="date-picker-inline"
-                value={personelInfo.date}
-                onChange={handleDateChange}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-              />
-            </LocalizationProvider>
-
-            <FormControl>
-              <FormLabel
-                sx={{
-                  padding: "10px",
-                  borderRadius: "10px",
-                  transition: "all 0.3s",
-                  color: "#000",
-                  margin: "0px",
-                  marginLeft: "-10px",
-                  marginTop: "0px",
-                  "&.MuiFormControlLabel:checked": {
-                    color: "red",
-                  },
-                }}
-              >
-                Gender
-              </FormLabel>
-              <RadioGroup row name="position" defaultValue="top">
-                <FormControlLabel
-                  id="man-gender-identity"
-                  name="gender_identity"
-                  value="man"
-                  sx={{
-                    marginLeft: "0px",
-                    padding: "15px",
-                    paddingTop: "7px",
-                    paddingBottom: "7px",
-                    borderRadius: "5px",
-                    color: "#000",
-                    border: "solid 1px #000",
-                    "&:hover": {
-                      color: "#d6002f",
-                      border: "solid 1px #d6002f",
-                    },
-                  }}
-                  onChange={handleChange}
-                  checked={personelInfo.gender_identity === "man"}
-                  control={<Radio sx={{ display: "none" }} />}
-                  label="Man"
-                  labelPlacement="end"
-                />
-                <FormControlLabel
-                  id="woman-gender-identity"
-                  name="gender_identity"
-                  value="woman"
-                  onChange={handleChange}
-                  sx={{
-                    marginLeft: "0px",
-                    padding: "15px",
-                    paddingTop: "7px",
-                    paddingBottom: "7px",
-                    borderRadius: "5px",
-                    color: "#000",
-                    border: "solid 1px #000",
-                    "&:hover": {
-                      color: "#d6002f",
-                      border: "solid 1px #d6002f",
-                    },
-                  }}
-                  checked={personelInfo.gender_identity === "woman"}
-                  control={<Radio sx={{ display: "none" }} />}
-                  label="Woman"
-                  labelPlacement="end"
-                />
-                <FormControlLabel
-                  id="more-gender-identity"
-                  name="gender_identity"
-                  value="more"
-                  onChange={handleChange}
-                  sx={{
-                    marginLeft: "0px",
-                    padding: "15px",
-                    paddingTop: "7px",
-                    paddingBottom: "7px",
-                    borderRadius: "5px",
-                    color: "#000",
-                    border: "solid 1px #000",
-                    "&:hover": {
-                      color: "#d6002f",
-                      border: "solid 1px #d6002f",
-                    },
-                  }}
-                  checked={personelInfo.gender_identity === "other"}
-                  control={<Radio sx={{ display: "none" }} />}
-                  label="Other"
-                  labelPlacement="end"
-                />
-              </RadioGroup>
-            </FormControl>
-
-            <FormControl component="fieldset">
-              <FormGroup row>
-                <FormControlLabel
-                  value="top"
-                  id="show-gender"
-                  name="show_gender"
-                  onChange={handleChange}
-                  checked={personelInfo.show_gender}
-                  control={<Checkbox />}
-                  label="Show my gender on my profile"
-                  labelPlacement="end"
-                  sx={{
-                    padding: "10px",
-                    borderRadius: "10px",
-                    transition: "all 0.3s",
-                    color: "#000",
-                    margin: "0px",
-                    marginLeft: "-21px",
-                    marginTop: "10px",
-                  }}
-                />
-              </FormGroup>
-            </FormControl>
-
-            <FormControl>
-              <FormLabel
-                sx={{
-                  padding: "10px",
-                  borderRadius: "10px",
-                  transition: "all 0.3s",
-                  color: "#000",
-                  margin: "0px",
-                  marginLeft: "-10px",
-                  marginTop: "0px",
-                }}
-              >
-                Show Me
-              </FormLabel>
-              <RadioGroup row name="position" defaultValue="top">
-                <FormControlLabel
-                  id="man-gender-interest"
-                  name="gender_interest"
-                  value="man"
-                  onChange={handleChange}
-                  checked={personelInfo.gender_interest === "man"}
-                  control={<Radio sx={{ display: "none" }} />}
-                  label="Man"
-                  labelPlacement="end"
-                  sx={{
-                    marginLeft: "0px",
-                    padding: "15px",
-                    paddingTop: "7px",
-                    paddingBottom: "7px",
-                    borderRadius: "5px",
-                    color: "#000",
-                    border: "solid 1px #000",
-                    "&:hover": {
-                      color: "#d6002f",
-                      border: "solid 1px #d6002f",
-                    },
-                  }}
-                />
-                <FormControlLabel
-                  id="woman-gender-interest"
-                  name="gender_interest"
-                  value="woman"
-                  onChange={handleChange}
-                  checked={personelInfo.gender_interest === "woman"}
-                  control={<Radio sx={{ display: "none" }} />}
-                  label="Woman"
-                  labelPlacement="end"
-                  sx={{
-                    marginLeft: "0px",
-                    padding: "15px",
-                    paddingTop: "7px",
-                    paddingBottom: "7px",
-                    borderRadius: "5px",
-                    color: "#000",
-                    border: "solid 1px #000",
-                    "&:hover": {
-                      color: "#d6002f",
-                      border: "solid 1px #d6002f",
-                    },
-                  }}
-                />
-                <FormControlLabel
-                  id="everyone-gender-interest"
-                  type="radio"
-                  name="gender_interest"
-                  value="everyone"
-                  onChange={handleChange}
-                  checked={personelInfo.gender_interest === "everyone"}
-                  control={<Radio sx={{ display: "none" }} />}
-                  label="Everyone"
-                  labelPlacement="end"
-                  sx={{
-                    marginLeft: "0px",
-                    padding: "15px",
-                    paddingTop: "7px",
-                    paddingBottom: "7px",
-                    borderRadius: "5px",
-                    color: "#000",
-                    border: "solid 1px #000",
-                    "&:hover": {
-                      color: "#d6002f",
-                      border: "solid 1px #d6002f",
-                    },
-                  }}
-                />
-              </RadioGroup>
-            </FormControl>
-            <FormLabel
-              sx={{
-                padding: "10px",
-                borderRadius: "10px",
-                transition: "all 0.3s",
-                color: "#000",
-                margin: "0px",
-                marginLeft: "-10px",
-                marginTop: "10px",
-              }}
-            >
-              Email Address
-            </FormLabel>
-            <TextField
-              disabled
-              id="about"
-              type="text"
-              name="about"
-              placeholder={location.state.email}
-              sx={{
-                marginBottom: "10px",
-                "& .MuiOutlinedInput-root": {
-                  "& > fieldset": {
-                    padding: "15px 30px",
-                    margin: "10px 0",
-                    fontSize: "15px",
-                    border: "solid 2px rgb(219, 219, 219)",
-                    borderRadius: "10px",
-                  },
-                },
-              }}
-            />
-            <Typography
-              variant="h6"
-              sx={{
-                borderTop: "solid 1px rgb(213, 213, 213)",
-                cursor: "default",
-                left: "100px",
-                display: "flex",
-                justifyContent: "center",
-                fontStyle: "italic",
-                paddingTop: "10px",
-                fontWeight: "800",
-              }}
-            >
-              Optional
-            </Typography>
-            <FormLabel
-              sx={{
-                padding: "10px",
-                borderRadius: "10px",
-                transition: "all 0.3s",
-                color: "#000",
-                margin: "0px",
-                marginLeft: "-10px",
-                marginTop: "10px",
-              }}
-            >
-              Passion
-            </FormLabel>
-            <TextField
-              id="about"
-              type="text"
-              name="about"
-              required={true}
-              placeholder="Potterhead"
-              value={personelInfo.about}
-              onChange={handleChange}
-              sx={{
-                marginBottom: "10px",
-                "& .MuiOutlinedInput-root": {
-                  "& > fieldset": {
-                    padding: "15px 30px",
-                    margin: "10px 0",
-                    fontSize: "15px",
-                    border: "solid 2px rgb(219, 219, 219)",
-                    borderRadius: "10px",
-                  },
-                },
-              }}
-            />
-
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <Button
-                type="submit"
-                sx={{
-                  cursor: "pointer",
-                  backgroundColor: "#d6002f",
-                  color: "#fff",
-                  "&:hover": {
-                    backgroundColor: "#d6002f",
-                  },
-                  "&:disabled": {
-                    cursor: "default",
-                    backgroundColor: "#656e7b",
-                    color: "#fff",
-                  },
-                }}
-                disabled={
-                  !personelInfo.first_name ||
-                  !personelInfo.birthday ||
-                  !personelInfo.url ||
-                  !personelInfo.about
-                }
-              >
-                Continue
-              </Button>
-            </Box>
+            <Typography variant="label">Profile Photo</Typography>
+            <div style={thumbsContainer}>
+              <div {...getRootProps({ style })}>
+                <button style={buttonStyle}>
+                  <input {...getInputProps()} />
+                </button>
+                {thumbs[0]}
+              </div>
+              <div {...getRootProps({ style })}>
+                <button style={buttonStyle}>
+                  <input {...getInputProps()} />
+                </button>
+                {thumbs[1]}
+              </div>
+              <div {...getRootProps({ style })}>
+                <button style={buttonStyle}>
+                  <input {...getInputProps()} />
+                </button>
+                {thumbs[2]}
+              </div>
+              <div {...getRootProps({ style })}>
+                <button style={buttonStyle}>
+                  <input {...getInputProps()} />
+                </button>
+                {thumbs[3]}
+              </div>
+              <div {...getRootProps({ style })}>
+                <button style={buttonStyle}>
+                  <input {...getInputProps()} />
+                </button>
+                {thumbs[4]}
+              </div>
+              <div {...getRootProps({ style })}>
+                <button style={buttonStyle}>
+                  <input {...getInputProps()} />
+                </button>
+                {thumbs[5]}
+              </div>
+            </div>
           </Box>
         </Box>
-        <Box
-          component="section"
-          autoComplete="off"
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "20px",
-          }}
-          onSubmit={handleSubmit}
-        >
-          <Typography variant="label">Profile Photo</Typography>
-          <div style={thumbsContainer}>
-            <div {...getRootProps({ style })}>
-              <button style={buttonStyle}>
-                <input {...getInputProps()} />
-              </button>
-              {thumbs[0]}
-            </div>
-            <div {...getRootProps({ style })}>
-              <button style={buttonStyle}>
-                <input {...getInputProps()} />
-              </button>
-              {thumbs[1]}
-            </div>
-            <div {...getRootProps({ style })}>
-              <button style={buttonStyle}>
-                <input {...getInputProps()} />
-              </button>
-              {thumbs[2]}
-            </div>
-            <div {...getRootProps({ style })}>
-              <button style={buttonStyle}>
-                <input {...getInputProps()} />
-              </button>
-              {thumbs[3]}
-            </div>
-            <div {...getRootProps({ style })}>
-              <button style={buttonStyle}>
-                <input {...getInputProps()} />
-              </button>
-              {thumbs[4]}
-            </div>
-            <div {...getRootProps({ style })}>
-              <button style={buttonStyle}>
-                <input {...getInputProps()} />
-              </button>
-              {thumbs[5]}
-            </div>
-          </div>
-        </Box>
-      </Box>
-    </>
-  );
+      </>
+    );
+  }
 };
 
 export default OnBoarding;
