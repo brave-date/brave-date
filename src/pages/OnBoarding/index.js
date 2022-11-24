@@ -16,7 +16,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DatePicker } from "@mui/x-date-pickers";
 import { JWTAuth } from "../../api/AuthAPI";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import moment from "moment";
 import { useDropzone } from "react-dropzone";
 
@@ -101,12 +101,12 @@ const img = {
 
 const OnBoarding = () => {
   const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
+  const location = useLocation();
 
   let [personelInfo, setPersonelInfo] = useState({
-    email: user["email"],
-    password: user["password"],
+    email: location.state.email,
+    password: location.state.password,
     first_name: "",
     birthday: "",
     date: "",
@@ -119,6 +119,13 @@ const OnBoarding = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    //remove it later once backend is finished
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        email: location.state.email,
+      })
+    );
     dispatch(JWTAuth.onRegister({ personelInfo: personelInfo, navigate }));
   };
 
@@ -510,7 +517,7 @@ const OnBoarding = () => {
               id="about"
               type="text"
               name="about"
-              placeholder={user["email"]}
+              placeholder={location.state.email}
               sx={{
                 marginBottom: "10px",
                 "& .MuiOutlinedInput-root": {

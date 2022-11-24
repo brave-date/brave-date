@@ -61,6 +61,13 @@ const SignUp = ({ setShowSignUp, isSignUp }) => {
       handleErrorChange("passwordError")("Password is required!");
     } else {
       if (!isSignUp) {
+        //remove it later once backend is finished
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            email: values.email,
+          })
+        );
         dispatch(
           JWTAuth.onLogin({
             email: values.email,
@@ -69,15 +76,9 @@ const SignUp = ({ setShowSignUp, isSignUp }) => {
           })
         );
       } else {
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            email: values.email,
-            password: values.password,
-            navigate,
-          })
-        );
-        navigate("/app/onboarding");
+        navigate("/app/onboarding", {
+          state: { email: values.email, password: values.password },
+        });
       }
     }
   };
