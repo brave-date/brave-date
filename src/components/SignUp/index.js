@@ -2,6 +2,7 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import Button from "@mui/material/Button";
+import ContentLoader from "../ContentLoader";
 import { closeButtonLogo } from "../../icons";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
@@ -12,7 +13,7 @@ import IconButton from "@mui/material/IconButton";
 import LockIcon from "@mui/icons-material/Lock";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import isValidEmail from "../Helper";
+import { isValidEmail } from "../Helper";
 import { JWTAuth } from "../../api/AuthAPI";
 import { useDispatch } from "react-redux";
 import React from "react";
@@ -61,13 +62,6 @@ const SignUp = ({ setShowSignUp, isSignUp }) => {
       handleErrorChange("passwordError")("Password is required!");
     } else {
       if (!isSignUp) {
-        //remove it later once backend is finished
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            email: values.email,
-          })
-        );
         dispatch(
           JWTAuth.onLogin({
             email: values.email,
@@ -164,7 +158,6 @@ const SignUp = ({ setShowSignUp, isSignUp }) => {
                 position: "relative",
                 left: "30px",
               }}
-              onClick={onClick}
             >
               <TextField
                 sx={{
@@ -297,7 +290,7 @@ const SignUp = ({ setShowSignUp, isSignUp }) => {
                 }}
               >
                 <Button
-                  type="submit"
+                  onClick={onClick}
                   disabled={!isValidEmail(values.email) || !values.password}
                   sx={{
                     position: "relative",
@@ -405,6 +398,7 @@ const SignUp = ({ setShowSignUp, isSignUp }) => {
           </Box>
         </Button>
       </Box>
+      <ContentLoader />
     </Box>
   );
 };

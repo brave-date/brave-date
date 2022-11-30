@@ -2,4 +2,8 @@ const isValidEmail = (value) => {
   return value && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,8}$/i.test(value);
 };
 
-export default isValidEmail;
+const checkHtml = (value) => {
+  return value && /<([A-Za-z][A-Za-z0-9]*)\b[^>]*>(.*?)<\/\1>/.test(value);
+};
+
+export { isValidEmail, checkHtml };

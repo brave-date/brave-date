@@ -11,3 +11,9 @@ export const axiosJson = () => {
     headers: { "Content-Type": "application/json" },
   });
 };
+
+export const axiosFiles = () => {
+  return axios.create({
+    headers: { "content-type": "multipart/form-data" },
+  });
+};

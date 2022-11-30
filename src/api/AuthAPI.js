@@ -1,4 +1,4 @@
-import { axiosUrlEncoded, axiosJson } from "./AxiosConfig";
+import { axiosUrlEncoded, axiosJson, axiosFiles } from "./AxiosConfig";
 import {
   setAuthUser,
   updateLoadUser,
@@ -14,14 +14,17 @@ import { Server } from "../utils";
 
 var axUrlEncoded = axiosUrlEncoded();
 var axJson = axiosJson();
+var axFiles = axiosFiles();
 
 export const JWTAuth = {
   onRegister: ({ personelInfo, navigate }) => {
     return (dispatch) => {
       try {
-        // TODO: move `navigate` into `then` when the backend is completed
-        navigate("/app/recs");
         dispatch(fetchStart());
+        let profile_picture = personelInfo.profile_picture;
+        personelInfo["profile_picture"] = "";
+        const email = personelInfo.email;
+        const password = personelInfo.password;
         axJson
           .post(
             `${Server.endpoint}/auth/register`,
@@ -29,28 +32,27 @@ export const JWTAuth = {
           )
           .then(({ data }) => {
             if (data.status_code === 201) {
-              localStorage.setItem("token", data.token.value);
+              localStorage.setItem("token", data.token.access_token);
               axJson.defaults.headers.common["Authorization"] =
-                "Bearer " + data.token.value;
-              dispatch(fetchSuccess(data.message));
-              //dispatch(JWTAuth.getAuthUser(true, data.token.value));
+                "Bearer " + data.token.access_token;
+              dispatch(
+                JWTAuth.onLogin({ email, password, navigate, profile_picture })
+              );
             } else {
               dispatch(fetchError(data.message));
             }
           })
           .catch(function (error) {
-            dispatch(fetchError(""));
+            dispatch(fetchError(error));
           });
       } catch (error) {
-        dispatch(fetchError(""));
+        dispatch(fetchError(error));
       }
     };
   },
-  onLogin: ({ email, password, navigate }) => {
+  onLogin: ({ email, password, navigate, profile_picture }) => {
     return (dispatch) => {
       try {
-        // TODO: move `navigate` into `then` when the backend is completed
-        navigate("/app/recs");
         dispatch(fetchStart());
         axUrlEncoded
           .post(
@@ -65,13 +67,18 @@ export const JWTAuth = {
               axJson.defaults.headers.common["Authorization"] =
                 "Bearer " + data.access_token;
               dispatch(fetchSuccess());
-              dispatch(
-                JWTAuth.getAuthUser(
-                  true,
-                  data.access_token,
-                  "Welcome. Let's get chattin'"
-                )
-              );
+              if (profile_picture) {
+                dispatch(uploadProfilePicture(profile_picture));
+              } else {
+                dispatch(
+                  JWTAuth.getAuthUser(
+                    true,
+                    data.access_token,
+                    "Welcome. Let's get matchin'!"
+                  )
+                );
+              }
+              navigate("/app/recs");
             } else {
               dispatch(fetchError(data.message));
             }
@@ -109,7 +116,7 @@ export const JWTAuth = {
     return (dispatch) => {
       if (!token) {
         const token = localStorage.getItem("token");
-        axiosJson.defaults.headers.common["Authorization"] = "Bearer " + token;
+        axJson.defaults.headers.common["Authorization"] = "Bearer " + token;
       }
       dispatch(fetchStart());
       dispatch(updateLoadUser(loaded));
@@ -117,7 +124,9 @@ export const JWTAuth = {
         .get(`${Server.endpoint}/user/profile`)
         .then(({ data }) => {
           if (data.status_code === 200) {
-            dispatch(fetchSuccess(message));
+            if (message !== "navigate") {
+              dispatch(fetchSuccess(message));
+            }
             dispatch(updateLoadUser(true));
             dispatch(setCurrentUser(data.user));
             dispatch(setAuthUser(data.user));
@@ -132,4 +141,29 @@ export const JWTAuth = {
         });
     };
   },
+};
+
+export const uploadProfilePicture = (image) => {
+  return (dispatch) => {
+    const formData = new FormData();
+    formData.append("file", image);
+    dispatch(fetchStart());
+    const token = localStorage.getItem("token");
+    if (token) {
+      axFiles.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axFiles
+        .put(`${Server.endpoint}/user/profile-image`, formData)
+        .then(({ data }) => {
+          if (data.status_code === 200) {
+            dispatch(JWTAuth.getAuthUser(true, token, data.message));
+            dispatch(JWTAuth.getAuthUser(true, token, data.message));
+          } else {
+            dispatch(fetchError(data.message));
+          }
+        })
+        .catch(function (error) {
+          dispatch(fetchError(""));
+        });
+    }
+  };
 };
