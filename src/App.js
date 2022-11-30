@@ -5,6 +5,9 @@ import { authUser } from "./redux/authReducer/selectors";
 import { setCurrentUser, setAuthUser } from "./redux/authReducer/actions";
 import { useSelector, useDispatch } from "react-redux";
 
+import { setInitialUsers, getUserMatches } from "./api/MatchAPI";
+import { getMessagesList } from "./api/ChatAPI";
+
 const App = () => {
   const [currentAuthUser, setCurrentAuthUser] = useState(useSelector(authUser));
   const Landing = lazy(() => import("./pages/Landing"));
@@ -18,13 +21,19 @@ const App = () => {
       const user = JSON.parse(localStorage.getItem("user"));
       setCurrentAuthUser(user);
       dispatch(setCurrentUser(user));
+      dispatch(getUserMatches());
       dispatch(setAuthUser(user));
+      dispatch(setInitialUsers());
+      dispatch(getMessagesList());
     }
     // eslint-disable-next-line
   }, [dispatch, localStorage.getItem("user")]);
 
   if (currentAuthUser && location.pathname === "/") {
     dispatch(setCurrentUser(currentAuthUser));
+    dispatch(getUserMatches());
+    dispatch(setInitialUsers());
+    dispatch(getMessagesList());
     return <Navigate to={"/app/recs"} replace />;
   }
 

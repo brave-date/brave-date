@@ -6,48 +6,34 @@ import Tab from "@mui/material/Tab";
 import MatchesList from "../../components/SideBar/MatchesList";
 import MessagesList from "../../components/SideBar/MessagesList";
 import MainContainer from "../../components/MainContainer";
-//import MessagesList from "./MessagesList";
-//TODO: redux selectors
-//import {
-//   currentUser,
-//   messages,
-//   matches,
-// } from "../../redux/appReducer/selectors";
-//TODO: redux actions
-//import { onMatchesSelect } from "../../redux/appReducer/actions";
-//import { useDispatch, useSelector } from "react-redux";
-//TODO: axios
-// import { getChatUsers, getContactUsers, getRoomsUser } from "../../api/Axios";
+import { currentUser } from "../../redux/authReducer/selectors";
+import { chatList } from "../../redux/chatReducer/selectors";
+import { onUserSelect } from "../../redux/chatReducer/actions";
+import { matches } from "../../redux/matchReducer/selectors";
+import { useDispatch, useSelector } from "react-redux";
+//import { getUserMatches } from "../../api/MatchAPI";
 
 const Sidebar = () => {
-  //TODO: const thisCurrentUser = useSelector(currentUser);
-  const [thisCurrentUser] = useState({
-    first_name: "Mahmoud",
-    profile_picture: "",
-  });
-  // TODO: const currentMessages = useSelector(messages);
-  //const [currentMessages,] = useState({});
-  // TODO: currentMatches = useSelector(matches);
-  const [currentMatches] = useState({});
+  const thisCurrentUser = useSelector(currentUser);
+  const currentMessages = useSelector(chatList);
+  const currentMatches = useSelector(matches);
   const [value, setValue] = useState(1);
-  //const dispatch = useDispatch();
-
-  const onMatchesSelect = (user) => {
-    //TODO: dispatch(onMatchesSelect(user));
-  };
+  const dispatch = useDispatch();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  const onMatchUserSelect = (user) => {
+    dispatch(onUserSelect(user));
+  };
   useEffect(() => {
     if (value === 1) {
-      //TODO: dispatch(getMatchesList());
+      //dispatch(getUserMatches());
     }
     if (value === 2) {
       //TODO: dispatch(getMessagesList());
     }
-  }, [value]);
+  }, [value, dispatch]);
   return (
     <Box className="in-build-app-container">
       <Box className="in-build-app-sidebar">
@@ -91,13 +77,12 @@ const Sidebar = () => {
           <MatchesList
             currentUser={thisCurrentUser}
             matches={currentMatches}
-            onMatchesSelect={onMatchesSelect}
+            onMatchesSelect={onMatchUserSelect}
           />
         ) : (
           <MessagesList
-            currentUser={thisCurrentUser}
-            messages={currentMatches}
-            onMessagesSelect={onMatchesSelect}
+            messages={currentMessages}
+            onMessagesSelect={onMatchUserSelect}
           />
         )}
       </Box>

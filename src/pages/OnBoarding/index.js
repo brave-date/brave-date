@@ -1,4 +1,5 @@
 import Header from "../../components/Header";
+import ContentLoader from "../../components/ContentLoader";
 import React, { useState, useEffect, useMemo } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -106,31 +107,26 @@ const OnBoarding = () => {
 
   const [personelInfo, setPersonelInfo] = useState({
     first_name: "",
+    last_name: "",
     birthday: "",
     date: "",
-    show_gender: false,
-    gender_identity: "man",
-    gender_interest: "woman",
-    url: "",
-    about: "",
+    display_gender_bool: false,
+    gender: "man",
+    interests: "woman",
+    profile_picture: "",
+    passion: "",
   });
 
   const handleSubmit = async (e) => {
     const userInfo = location.state;
     e.preventDefault();
-    //remove it later once backend is finished
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        email: location.state.email,
-      })
-    );
     dispatch(
       JWTAuth.onRegister({
         personelInfo: {
           ...personelInfo,
           email: userInfo.email,
           password: userInfo.password,
+          display_gender: Number(personelInfo.display_gender_bool),
         },
         navigate,
       })
@@ -174,7 +170,7 @@ const OnBoarding = () => {
         setPersonelInfo((prevState) => ({
           ...prevState,
           // eslint-disable-next-line
-          ["url"]: acceptedFiles[0].preview,
+          ["profile_picture"]: acceptedFiles[0],
         }));
       },
     });
@@ -330,7 +326,7 @@ const OnBoarding = () => {
                 <RadioGroup row name="position" defaultValue="top">
                   <FormControlLabel
                     id="man-gender-identity"
-                    name="gender_identity"
+                    name="gender"
                     value="man"
                     sx={{
                       marginLeft: "0px",
@@ -346,14 +342,14 @@ const OnBoarding = () => {
                       },
                     }}
                     onChange={handleChange}
-                    checked={personelInfo.gender_identity === "man"}
+                    checked={personelInfo.gender === "man"}
                     control={<Radio sx={{ display: "none" }} />}
                     label="Man"
                     labelPlacement="end"
                   />
                   <FormControlLabel
                     id="woman-gender-identity"
-                    name="gender_identity"
+                    name="gender"
                     value="woman"
                     onChange={handleChange}
                     sx={{
@@ -369,14 +365,14 @@ const OnBoarding = () => {
                         border: "solid 1px #d6002f",
                       },
                     }}
-                    checked={personelInfo.gender_identity === "woman"}
+                    checked={personelInfo.gender === "woman"}
                     control={<Radio sx={{ display: "none" }} />}
                     label="Woman"
                     labelPlacement="end"
                   />
                   <FormControlLabel
                     id="more-gender-identity"
-                    name="gender_identity"
+                    name="gender"
                     value="more"
                     onChange={handleChange}
                     sx={{
@@ -392,7 +388,7 @@ const OnBoarding = () => {
                         border: "solid 1px #d6002f",
                       },
                     }}
-                    checked={personelInfo.gender_identity === "other"}
+                    checked={personelInfo.gender === "other"}
                     control={<Radio sx={{ display: "none" }} />}
                     label="Other"
                     labelPlacement="end"
@@ -405,9 +401,9 @@ const OnBoarding = () => {
                   <FormControlLabel
                     value="top"
                     id="show-gender"
-                    name="show_gender"
+                    name="display_gender"
                     onChange={handleChange}
-                    checked={personelInfo.show_gender}
+                    checked={personelInfo.display_gender_bool}
                     control={<Checkbox />}
                     label="Show my gender on my profile"
                     labelPlacement="end"
@@ -440,11 +436,11 @@ const OnBoarding = () => {
                 </FormLabel>
                 <RadioGroup row name="position" defaultValue="top">
                   <FormControlLabel
-                    id="man-gender-interest"
-                    name="gender_interest"
+                    id="man-gender-interests"
+                    name="interests"
                     value="man"
                     onChange={handleChange}
-                    checked={personelInfo.gender_interest === "man"}
+                    checked={personelInfo.interests === "man"}
                     control={<Radio sx={{ display: "none" }} />}
                     label="Man"
                     labelPlacement="end"
@@ -464,10 +460,10 @@ const OnBoarding = () => {
                   />
                   <FormControlLabel
                     id="woman-gender-interest"
-                    name="gender_interest"
+                    name="interests"
                     value="woman"
                     onChange={handleChange}
-                    checked={personelInfo.gender_interest === "woman"}
+                    checked={personelInfo.interests === "woman"}
                     control={<Radio sx={{ display: "none" }} />}
                     label="Woman"
                     labelPlacement="end"
@@ -486,12 +482,12 @@ const OnBoarding = () => {
                     }}
                   />
                   <FormControlLabel
-                    id="everyone-gender-interest"
+                    id="everyone-gender-interests"
                     type="radio"
-                    name="gender_interest"
+                    name="interests"
                     value="everyone"
                     onChange={handleChange}
-                    checked={personelInfo.gender_interest === "everyone"}
+                    checked={personelInfo.interests === "everyone"}
                     control={<Radio sx={{ display: "none" }} />}
                     label="Everyone"
                     labelPlacement="end"
@@ -572,12 +568,12 @@ const OnBoarding = () => {
                 Passion
               </FormLabel>
               <TextField
-                id="about"
+                id="passion"
                 type="text"
-                name="about"
+                name="passion"
                 required={true}
                 placeholder="Potterhead"
-                value={personelInfo.about}
+                value={personelInfo.passion}
                 onChange={handleChange}
                 sx={{
                   marginBottom: "10px",
@@ -617,8 +613,8 @@ const OnBoarding = () => {
                   disabled={
                     !personelInfo.first_name ||
                     !personelInfo.birthday ||
-                    !personelInfo.url ||
-                    !personelInfo.about
+                    !personelInfo.profile_picture ||
+                    !personelInfo.passion
                   }
                 >
                   Continue
@@ -677,6 +673,7 @@ const OnBoarding = () => {
             </div>
           </Box>
         </Box>
+        <ContentLoader />
       </>
     );
   }
