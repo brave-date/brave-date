@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Brave Date Docs.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      content="Brave Date is the ultimate tinder clone."
+      name="description"
+    />
+    <meta content="Mahmoud Harmouch" name="author" />
+    <meta name="keywords" content="Brave Date documentation" />
+    <link rel="shortcut icon" href="static/images/favicon.ico" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      type="text/css"
+      id="bootstrap-style"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="static/style.css"
+      id="app-style"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+  <body data-spy="scroll" data-target=".left-side-nav" data-offset="180">
+    <div data-simplebar class="h-100">
+      <div id="navbar-include"></div>
+    </div>
+    <div class="main-content g-0 g-md-1 mb-3">
+      <div class="pt-5 pb-5 ps-3 pe-3 mt-5 mb-5 ms-0 position-relative">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card mt-3">
+                <div class="card-body">
+                  <div class="d-xl-flex">
+                    <div class="w-100">
+                      <div class="p-lg-1">
+                        <div class="mb-5">
+                          <div class="mb-5">
+                            <h4 class="mt-0 mb-4 d-flex align-items-center">
+                              <span class="material-icons"> forward </span>
+                              Installation
+                            </h4>
+                            <p>
+                              This project was bootstrapped using
+                              <a
+                                class="text-decoration-none text-primary fw-bold"
+                                href="https://create-react-app.dev/"
+                                target="_blank"
+                              >
+                                <strong>Create React App </strong>
+                              </a>
+                              meaning that it is equiped with built-in scripts
+                              that get your application up and running. This
+                              makes it easier for you to get started with React
+                              and have a working application with minimal
+                              effort. But, before running these scripts, you'll
+                              need to make sure you have the following tools
+                              installed:
+                            </p>
+                            <table class="table table-bordered mt-3">
+                              <thead>
+                                <tr>
+                                  <th>Tools</th>
+                                  <th>Version</th>
+                                  <th>Description</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <a
+                                      class="text-decoration-none text-primary fw-bold"
+                                      href="https://nodejs.org/en/"
+                                      target="_blank"
+                                      >Node.js
+                                    </a>
+                                  </td>
+                                  <td>v16.17.0</td>
+                                  <td>
+                                    Node.js is a JavaScript runtime that lets
+                                    you easily build fast, scalable network
+                                    applications.
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <a
+                                      class="text-decoration-none text-primary fw-bold"
+                                      href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm"
+                                      target="_blank"
+                                      >npm
+                                    </a>
+                                  </td>
+                                  <td>8.15.0</td>
+                                  <td>
+                                    npm is a widely used JavaScript package
+                                    manager that makes it easy to install,
+                                    update, and manage dependencies in your
+                                    projects.
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <a
+                                      class="text-decoration-none text-primary fw-bold"
+                                      href="https://yarnpkg.com/getting-started"
+                                      target="_blank"
+                                      >yarn
+                                    </a>
+                                  </td>
+                                  <td>1.22.19</td>
+                                  <td>
+                                    Like npm, Yarn is yet another JavaScript
+                                    package manager. It is a newer than npm and
+                                    offers several advantages over it, including
+                                    a slightly better performance and security.
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                           <p>Once you have git, Node.js and one of the package 
+                            managers installed, you should be good to go! Now 
+                            you need to fork and clone the repository:</p>
+                            <ul>
+                              <li>Fork the 
+                              <a
+                                class="text-decoration-none text-primary fw-bold"
+                                href="https://github.com/brave-date/brave-date"
+                                target="_blank"
+                              >
+                                <strong>Brave Date repo on GitHub.</strong>
+                              </a></li>
+                              <li>
+                                Clone your forked repo locally:
+                                <div class="mt-1">
+                                  <pre class="bg-dark text-white p-3">
+git clone git@github.com:your_name_here/brave-date.git
+</pre
+                                  >
+                                </div>
+                              </li>
+                              <li>
+                                Open the newly created directory:
+                                <div class="mt-1">
+                                  <pre class="bg-dark text-white p-3">
+cd brave-date
+</pre>
+                                </div>
+                              </li>
+                            </ul><p>
+                            In order to run the project locally or build
+                            for production use, you will need to set the following
+                            environment variables to connect with the server:
+</p>
+<pre class="bg-dark text-white p-3">
+REACT_APP_SERVER_URL=http://localhost:8000/api/v1
+REACT_APP_SOCKET_URL=ws://localhost:8000/api/v1/ws
+</pre>
+                            <p>You can now execute the following commands:
+                            </p>
+                            <table class="table table-bordered mt-3">
+                              <thead>
+                                <tr>
+                                  <th>Command</th>
+                                  <th>Description</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <code><strong>npm install </strong></code> or
+                                    <code><strong>yarn install </strong></code>
+                                  </td>
+                                  <td>
+                                    This command will install everything that's
+                                    needed in the node_modules folder, so you
+                                    won't have to worry about doing it manually.
+                                    Plus, it's a lot faster than installing each
+                                    dependency individually.
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <code><strong>npm start </strong></code> or
+                                    <code><strong>yarn start </strong></code>
+                                  </td>
+                                  <td>
+                                    This command will start the server at
+                                    <code><strong>http://localhost:3000 </strong></code> and
+                                    watch for any changes in your code. This is
+                                    a great way to develop and test your code
+                                    before putting it live.
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <code><strong>npm build </strong></code> or
+                                    <code><strong>yarn build </strong></code>
+                                  </td>
+                                  <td>
+                                    This command will generate a
+                                    <code><strong>/dist </strong></code> directory containing all
+                                    of the files you need to deploy your
+                                    project.
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <code><strong>npx serve -s build</strong></code>
+                                  </td>
+                                  <td>
+                                    Serve the statically generated html files on localhost.
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                            Each of these commands serves a specific purpose and
+                            is essential for getting the project up and running
+                            smoothly. So be sure to run the commands in the
+                            order listed above.
+                            <br />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div id="footer-include"></div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplebar/6.0.0-beta.0/simplebar.min.js"></script>
+    <script src="static/jquery.js"></script>
+  </body>
+</html>

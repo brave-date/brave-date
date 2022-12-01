@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Brave Date Docs.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      content="Brave Date is the ultimate tinder clone."
+      name="description"
+    />
+    <meta content="Mahmoud Harmouch" name="author" />
+    <meta name="keywords" content="Brave Date documentation" />
+    <link rel="shortcut icon" href="static/images/favicon.ico" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      type="text/css"
+      id="bootstrap-style"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="static/style.css"
+      id="app-style"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+  <body data-spy="scroll" data-target=".left-side-nav" data-offset="180">
+    <div data-simplebar class="h-100">
+      <div id="navbar-include"></div>
+    </div>
+    <div class="main-content g-0 g-md-1 mb-3">
+      <div class="pt-5 pb-5 ps-3 pe-3 mt-5 mb-5 ms-0 position-relative">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card mt-3">
+                <div class="card-body">
+                  <div class="d-xl-flex">
+                    <div class="w-100">
+                      <div class="p-lg-1">
+                        <div class="mb-5">
+                          <div class="mb-5">
+                            <h4 class="mt-0 mb-4 d-flex align-items-center">
+                              <span class="material-icons"> forward </span>
+                              API Integration
+                            </h4>
+                            <p class="ms-2 text-right">
+                              The files related to API integrations can be found
+                              in the <code>src/api </code> folder. This folder
+                              contains multiple <code>ModuleAPI.js </code> files, and the
+                              <code>AxiosConfig.js </code> file, which contains
+                              the setup for axios to call server API(s),
+                              including the get, put, post, etc methods,
+                              interceptors, and token set methods. The
+                              <code>src/api/Socket.js </code> file contains all of
+                              the module's Socket io functions, which are used
+                              to send, receive messages.
+                            </p>
+                          </div>
+                        </div>
+                        <div class="mb-5" id="how-to-use">
+                          <h4 class="mt-0 mb-4 d-flex align-items-center">
+                            <span class="material-icons"> forward </span>
+                            Integrate new API endpoints.
+                          </h4>
+                          <p class="ms-2 text-right">
+                            In order to get a new custom endpoint working, you
+                            can follow the below steps: Say you want to add a
+                            new endpoint with the following url
+                            <code>/users/get-profile-image/{userPk}</code>.
+                          </p>
+
+                          <ol>
+                            <li>
+                              First, we have to create a new method for this url
+                              in a separate <code>NewModuleAPI.js </code> file. And, we will end up with a function like the following:
+                              <div>
+                                <xmp class="bg-dark text-white ps-4"
+>
+export const getProfileImage = (userPk) => {
+  return (dispatch) => {
+    // this funtions tells redux that a new endpoint is being called.
+    dispatch(fetchStart());
+    
+    // set the token, that is retrieved from the local storage, in the request
+    // headers because the enpoint doesn't allow unauthorized users.
+    axJson.defaults.headers.common["Authorization"] =
+    "Bearer " + localStorage.getItem("token");
+    
+    // We are using axJson which is an axios instance that sends data as json format. 
+    axJson.get("/users/get-profile-image/{userPk}", { params: { user_pk: userPk  } })
+          .then((data) => {
+            if (data.status_code === 200) {
+              dispatch(fetchSuccess());
+              // set the profile image for that user.
+              dispatch(setProfileImage(data.result));
+            } else {
+              dispatch(fetchError("Something went wrong"));
+            }
+          })
+          .catch(function (error) {
+            dispatch(fetchError(""));
+          });
+    };
+};
+                                </xmp>
+                              </div>
+                            </li>
+                            <p class="ms-2 text-right">
+                              <li>
+                                Now, We need to setup a new redux's action. To
+                                do so, hope over the
+                                <code
+                                  >src/redux/moduleReducer/actions/index.js
+                                </code>
+                                and create a new action called
+                                <code>setProfileImage </code>:
+                                <div>
+                                  <xmp class="bg-dark text-white ps-4"
+>
+import SET_USER_PROFILE_IMAGE from "../../../constants/ActionTypes"
+
+export const setProfileImage = (data) => {
+  return (dispatch) => {
+    dispatch({
+      type: SET_USER_PROFILE_IMAGE,
+      payload: data,
+    });
+  };
+};
+                                  </xmp>
+                                </div>
+                                <div>
+                                  <div class="alert alert-success">
+                                    <strong>Note: </strong> You need to define a
+                                    new string in the constants/ActionTypes.js
+                                    like so:
+                                    <code
+                                      >export const SET_USER_PROFILE_IMAGE =
+                                      "SET_USER_PROFILE_IMAGE";
+                                    </code>
+                                  </div>
+                                </div>
+                              </li>
+                            </p>
+
+                            <p class="ms-2 text-right">
+                              <li>
+                                Now, We need to bind our new action to the
+                                reducer. Open the
+                                <code>src/redux/moduleReducer/index.js </code> file
+                                and add the following code:
+                                <div>
+                                  <xmp class="bg-dark text-white ps-4"
+>
+import { setProfileImage } from "./actions"
+import SET_USER_PROFILE_IMAGE from "../../constants/ActionTypes"
+
+const INIT_STATE : UsersState = {
+  profileImage: null,
+}
+
+const moduleReducer = (state = INIT_STATE, action) => {
+  switch (action.type) {
+    case SET_USER_PROFILE_IMAGE: {
+      return {
+        ...state,
+        profileImage: action.payload,
+      };
+    }
+    default:
+      return { ...state }
+  }
+}
+
+export default moduleReducer
+                                  </xmp>
+                                </div>
+                              </li>
+                            </p>
+
+                            <div>
+                              <div class="alert alert-success">
+                                <strong>Note: </strong> You can create a
+                                separate reducer and combine it with the rest
+                                under redux/rootReducer like the following:
+                                <div>
+                                  <xmp class="bg-dark text-white ps-4"
+>
+import { combineReducers } from "redux";
+import moduleReducer from "./moduleReducer";
+import userReducer from "./userReducer";
+
+const rootReducer = combineReducers({
+  moduleName: moduleReducer,
+  user: userReducer,
+});
+
+export default rootReducer;
+                                  </xmp>
+                                </div>
+                              </div>
+                            </div>
+                            <p class="ms-2 text-right">
+                              <li>
+                                And that's basically it! Now you can call the
+                                new action from your component:
+                                <div>
+                                  <xmp class="bg-dark text-white ps-4"
+>
+import React, { useEffect, useState } from "react";
+
+// redux
+import { useSelector, useDispatch } from "react-redux";
+
+// Your action
+import { setProfileImage } from "../../../redux/moduleReducer/actions";
+
+const NewComponent = (props) => {
+  const dispatch = useDispatch();
+  const { userDetails } = useSelector((state) => ({
+    state.moduleName.profileImage
+  }));
+  // submit a new profile image
+  useEffect(() => {
+    dispatch(setProfileImage(formData))
+  },[dispatch]);
+  return (
+    <>
+    </>
+  );
+  }
+
+export default NewComponent;
+                                  </xmp>
+                                </div>
+                              </li>
+                            </p>
+                          </ol>
+
+                          <h4 class="mt-0 mb-4 d-flex align-items-center">
+                            <span class="material-icons"> forward </span>
+                            Integrate new socket.
+                          </h4>
+                          <p>TODO:</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div id="footer-include"></div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplebar/6.0.0-beta.0/simplebar.min.js"></script>
+    <script src="static/jquery.js"></script>
+  </body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Brave Date Docs.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      content="Brave Date is the ultimate tinder clone."
+      name="description"
+    />
+    <meta content="Mahmoud Harmouch" name="author" />
+    <meta name="keywords" content="Brave Date documentation" />
+    <link rel="shortcut icon" href="static/images/favicon.ico" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      type="text/css"
+      id="bootstrap-style"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="static/style.css"
+      id="app-style"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+  <body data-spy="scroll" data-target=".left-side-nav" data-offset="180">
+    <div data-simplebar class="h-100">
+      <div id="navbar-include"></div>
+    </div>
+    <div class="main-content g-0 g-md-1 mb-3">
+      <div class="pt-5 pb-5 ps-3 pe-3 mt-5 mb-5 ms-0 position-relative">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card mt-3">
+                <div class="card-body">
+                  <div class="d-xl-flex">
+                    <div class="w-100">
+                      <div class="p-lg-1">
+                        <div class="mb-5">
+                          <div class="mb-5">
+                            <h4 class="mt-0 mb-4 d-flex align-items-center">
+                              <span class="material-icons"> forward </span>
+                              API Integration
+                            </h4>
+                            <p class="ms-2 text-right">
+                              The files related to API integrations can be found
+                              in each of the <code>app/app_name/router.py</code> folder(e.g. <code>app/users/router.py</code>). This file contains all the endpoints related to this api, users, which contain all server endpoint(s) related to this app, including get, put, post, etc methods. The
+                              <code>app/app_name/crud.py</code> file contains all of
+                              the crud operations that is being performed on the redis database.
+                            </p>
+                          </div>
+                        </div>
+                        <div class="mb-5" id="how-to-use">
+                          <h4 class="mt-0 mb-4 d-flex align-items-center">
+                            <span class="material-icons"> forward </span>
+                            Integrate new API endpoints.
+                          </h4>
+                          <p class="ms-2 text-right">
+                            In order to get a new custom endpoint working, you
+                            can follow the below steps: Say you want to add a
+                            new endpoint with the following url
+                            <code>/users/get-profile-image/{user_pk}</code>.
+                          </p>
+
+                          <ol>
+                            <li>
+                              First, we have to create a new endpoint for this url
+                              in the <code>router.py </code> file. We will end up with a function like the following:
+                              <div>
+                                <xmp class="bg-dark text-white ps-4"
+>
+@router.get("/users/get-profile-image/{user_pk}")
+async def get_profile_image(user_pk: str):
+    try:
+        img = profile_images.get(f"user/{name}/profile.png")
+        return responses.StreamingResponse(
+            img.iter_chunks(), media_type="image/png"
+        )
+    except Exception as e:
+        return {"status_code": 400, "message": str(e)}
+                                </xmp>
+                              </div>
+                            </li>
+                            <p>Todo:</p>
+                          </ol>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div id="footer-include"></div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplebar/6.0.0-beta.0/simplebar.min.js"></script>
+    <script src="static/jquery.js"></script>
+  </body>
+</html>
