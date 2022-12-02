@@ -1,6 +1,6 @@
 {
   "name": "Brave Date",
-  "description": "The ultimate open source Tinder alternative.",
+  "description": " The ultimate Tinder clone built with React, MUI, Redux, and friends.",
   "keywords": [
       "tinder",
       "dating",
@@ -15,6 +15,18 @@
         "url": "heroku/nodejs"
       }
   ],
+  "env": {
+    "REACT_APP_SERVER_URL": {
+      "description": "Your deployed server APIs url",
+      "value": "APP_SERVER_URL",
+      "required": true
+    },
+    "REACT_APP_SOCKET_URL": {
+      "description": "Your deployed server Sockets url",
+      "value": "APP_SOCKET_URL",
+      "required": true
+    }
+  },
   "formation": {
       "web": {
           "quantity": 1,
