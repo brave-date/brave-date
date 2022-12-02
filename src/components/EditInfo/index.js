@@ -24,21 +24,21 @@ const EditPersonalInformation = ({ open, onCloseDialog }) => {
   const [personalInfoValues, setPersonalInfoValues] = useState({
     firstName: "",
     lastName: "",
-    bio: "",
+    passion: "",
     phoneNumber: "",
   });
 
   const [errorValues, setErrorValues] = useState({
     firstNameError: "",
     lastNameError: "",
-    bioError: "",
+    passionError: "",
     phoneNumberError: "",
   });
 
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    const { firstName, lastName, bio, phoneNumber } = personalInfoValues;
+    const { firstName, lastName, passion, phoneNumber } = personalInfoValues;
 
     if (!firstName) {
       setErrorValues({
@@ -50,10 +50,10 @@ const EditPersonalInformation = ({ open, onCloseDialog }) => {
         ...errorValues,
         lastNameError: "This field is required!",
       });
-    } else if (!bio) {
+    } else if (!passion) {
       setErrorValues({
         ...errorValues,
-        bioError: "This field is required!",
+        passionError: "This field is required!",
       });
     } else if (!phoneNumber) {
       setErrorValues({
@@ -63,7 +63,7 @@ const EditPersonalInformation = ({ open, onCloseDialog }) => {
     } else {
       dispatch(
         SetPersonalInfo(
-          { firstName, lastName, bio, phoneNumber },
+          { firstName, lastName, passion, phoneNumber },
           onCloseDialog
         )
       );
@@ -153,20 +153,20 @@ const EditPersonalInformation = ({ open, onCloseDialog }) => {
                 fullWidth
                 className="text-field-root"
                 variant="outlined"
-                label="Bio"
-                value={personalInfoValues.bio}
+                label="Passion"
+                value={personalInfoValues.passion}
                 onChange={(e) => {
                   setPersonalInfoValues({
                     ...personalInfoValues,
-                    bio: e.target.value,
+                    passion: e.target.value,
                   });
-                  setErrorValues({ ...errorValues, bioError: "" });
+                  setErrorValues({ ...errorValues, passionError: "" });
                 }}
-                helperText={errorValues.bioError}
+                helperText={errorValues.passionError}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start" variant="standard">
-                      <IconButton aria-label="Bio" edge="end" disabled>
+                      <IconButton aria-label="Passion" edge="end" disabled>
                         <ThreePIcon />
                       </IconButton>
                     </InputAdornment>
@@ -188,7 +188,7 @@ const EditPersonalInformation = ({ open, onCloseDialog }) => {
                   });
                   setErrorValues({ ...errorValues, phoneNumberError: "" });
                 }}
-                helperText={errorValues.phoneNumberError}
+                error={errorValues.phoneNumberError}
               />
             </Grid>
           </GridContainer>

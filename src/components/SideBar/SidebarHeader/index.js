@@ -11,7 +11,7 @@ import Popover from "@mui/material/Popover";
 
 import ProfileDetail from "../ProfileDetail";
 
-import { uploadProfilePicture } from "../../../api/AuthAPI";
+import { uploadProfilePicture } from "../../../api/UsersAPI";
 
 import { useDropzone } from "react-dropzone";
 
@@ -27,9 +27,8 @@ const SidebarHeader = ({ user }) => {
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
-    multiple: false,
-    onDrop: (file) => {
-      dispatch(uploadProfilePicture(file));
+    onDrop: (files) => {
+      dispatch(uploadProfilePicture(files[0]));
     },
   });
 
