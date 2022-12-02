@@ -13,6 +13,7 @@ const App = () => {
   const Landing = lazy(() => import("./pages/Landing"));
   const OnBoarding = lazy(() => import("./pages/OnBoarding"));
   const Recognition = lazy(() => import("./pages/Recognition"));
+  const PageNotFound = lazy(() => import("./pages/PageNotFound"));
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -69,6 +70,7 @@ const App = () => {
             currentAuthUser ? <Recognition /> : <Navigate to={"/"} replace />
           }
         />
+        <Route element={<PageNotFound />} />
       </Routes>
     </Suspense>
   );

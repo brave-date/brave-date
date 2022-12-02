@@ -1,4 +1,4 @@
-import { axiosUrlEncoded, axiosJson, axiosFiles } from "./AxiosConfig";
+import { axiosUrlEncoded, axiosJson } from "./AxiosConfig";
 import {
   setAuthUser,
   updateLoadUser,
@@ -9,12 +9,12 @@ import {
   fetchStart,
   fetchSuccess,
 } from "../redux/commonReducer/actions";
+import { uploadProfilePicture } from "./UsersAPI";
 
 import { Server } from "../utils";
 
 var axUrlEncoded = axiosUrlEncoded();
 var axJson = axiosJson();
-var axFiles = axiosFiles();
 
 export const JWTAuth = {
   onRegister: ({ personelInfo, navigate }) => {
@@ -127,11 +127,11 @@ export const JWTAuth = {
             if (message !== "navigate") {
               dispatch(fetchSuccess(message));
             }
-            dispatch(updateLoadUser(true));
             dispatch(setCurrentUser(data.user));
             dispatch(setAuthUser(data.user));
             // store the user in localStorage
             localStorage.setItem("user", JSON.stringify(data.user));
+            dispatch(updateLoadUser(true));
           } else {
             dispatch(JWTAuth.onLogout());
           }
@@ -141,29 +141,4 @@ export const JWTAuth = {
         });
     };
   },
-};
-
-export const uploadProfilePicture = (image) => {
-  return (dispatch) => {
-    const formData = new FormData();
-    formData.append("file", image);
-    dispatch(fetchStart());
-    const token = localStorage.getItem("token");
-    if (token) {
-      axFiles.defaults.headers.common["Authorization"] = "Bearer " + token;
-      axFiles
-        .put(`${Server.endpoint}/user/profile-image`, formData)
-        .then(({ data }) => {
-          if (data.status_code === 200) {
-            dispatch(JWTAuth.getAuthUser(true, token, data.message));
-            dispatch(JWTAuth.getAuthUser(true, token, data.message));
-          } else {
-            dispatch(fetchError(data.message));
-          }
-        })
-        .catch(function (error) {
-          dispatch(fetchError(""));
-        });
-    }
-  };
 };

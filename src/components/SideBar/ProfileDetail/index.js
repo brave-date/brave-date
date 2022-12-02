@@ -127,7 +127,7 @@ const ProfileDetail = ({
           <ListItemText
             className="text-color"
             primary="Last Name"
-            secondary={user.first_name}
+            secondary={user.last_name}
           />
         </ListItem>
         <ListItem>
