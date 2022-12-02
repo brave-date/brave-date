@@ -17,18 +17,7 @@ export const initiateChatSocket = (sender, receiver) => {
         `${SOCKET_URL}/chat/${sender.id}/${receiver.id}`
       );
     }
-    chatClient.onopen = () => {
-      console.log("WebSocket Client Connected");
-    };
-    chatClient.onclose = () => {
-      console.log("Websocket Disconnected");
-    };
     chatClient.onerror = (err) => {
-      console.error(
-        "Socket encountered error: ",
-        err.message,
-        "Closing socket"
-      );
       chatClient.close();
       chatClient = new WebSocket(
         `${SOCKET_URL}/chat/${sender.id}/${receiver.id}`

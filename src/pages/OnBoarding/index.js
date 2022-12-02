@@ -18,7 +18,6 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { JWTAuth } from "../../api/AuthAPI";
 import { useDispatch } from "react-redux";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
-import moment from "moment";
 import { useDropzone } from "react-dropzone";
 
 // TODO: move all css objects into index.css file
@@ -144,14 +143,16 @@ const OnBoarding = () => {
   };
 
   const handleDateChange = (date) => {
-    const formattedDate = moment(date).format("DD-MM-YYYY");
-    setPersonelInfo((prevState) => ({
-      ...prevState,
-      // eslint-disable-next-line
-      ["birthday"]: formattedDate,
-      // eslint-disable-next-line
-      ["date"]: date,
-    }));
+    if (date) {
+      const formattedDate = date.format("DD-MM-YYYY");
+      setPersonelInfo((prevState) => ({
+        ...prevState,
+        // eslint-disable-next-line
+        ["birthday"]: formattedDate,
+        // eslint-disable-next-line
+        ["date"]: date,
+      }));
+    }
   };
   const [files, setFiles] = useState([]);
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
@@ -292,7 +293,7 @@ const OnBoarding = () => {
                   disableToolbar
                   renderInput={(params) => <TextField {...params} />}
                   variant="inline"
-                  views={["day"]}
+                  views={["day", "month", "year"]}
                   sx={{
                     borderColor: "#fff",
                   }}
@@ -401,7 +402,7 @@ const OnBoarding = () => {
                   <FormControlLabel
                     value="top"
                     id="show-gender"
-                    name="display_gender"
+                    name="display_gender_bool"
                     onChange={handleChange}
                     checked={personelInfo.display_gender_bool}
                     control={<Checkbox />}

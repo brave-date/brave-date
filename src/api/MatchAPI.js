@@ -1,6 +1,5 @@
 import {
   setMatchUsers,
-  setMatchUser,
   setUsers,
 } from "../redux/matchReducer/actions";
 import {
@@ -76,7 +75,7 @@ export const setSelectedMatch = (user) => {
       .then(({ data }) => {
         if (data.status_code === 201) {
           dispatch(fetchSuccess());
-          dispatch(setMatchUser(user));
+          dispatch(getUserMatches());
         } else {
           dispatch(fetchError(data.message));
         }

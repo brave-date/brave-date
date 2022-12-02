@@ -11,7 +11,8 @@ import { chatList } from "../../redux/chatReducer/selectors";
 import { onUserSelect } from "../../redux/chatReducer/actions";
 import { matches } from "../../redux/matchReducer/selectors";
 import { useDispatch, useSelector } from "react-redux";
-//import { getUserMatches } from "../../api/MatchAPI";
+import { getUserMatches } from "../../api/MatchAPI";
+import { getMessagesList } from "../../api/ChatAPI";
 
 const Sidebar = () => {
   const thisCurrentUser = useSelector(currentUser);
@@ -28,10 +29,10 @@ const Sidebar = () => {
   };
   useEffect(() => {
     if (value === 1) {
-      //dispatch(getUserMatches());
+      dispatch(getUserMatches());
     }
     if (value === 2) {
-      //TODO: dispatch(getMessagesList());
+      dispatch(getMessagesList());
     }
   }, [value, dispatch]);
   return (

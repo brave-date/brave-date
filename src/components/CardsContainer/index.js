@@ -46,10 +46,10 @@ const CardsContainer = () => {
     updateCurrentIndex(index - 1);
     setTimeout(() => {
       setCurrentDirection("");
+      if (direction === "right") {
+        dispatch(setSelectedMatch(db[index]));
+      }
     }, 1000);
-    if (direction === "right") {
-      dispatch(setSelectedMatch(db[index]));
-    }
   };
 
   const outOfFrame = (name, idx) => {
