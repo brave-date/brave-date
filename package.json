@@ -7,7 +7,7 @@
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.10.15",
     "@mui/material": "^5.10.15",
-    "@mui/x-date-pickers": "^5.0.8",
+    "@mui/x-date-pickers": "^5.0.11",
     "@react-spring/web": "^9.5.5",
     "@redux-devtools/extension": "^3.2.3",
     "@testing-library/jest-dom": "^5.16.5",
