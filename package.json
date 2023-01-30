@@ -34,7 +34,7 @@
     "redux-thunk": "^2.4.2",
     "remark-gfm": "^3.0.1",
     "slick-carousel": "^1.8.1",
-    "sweetalert2": "^11.6.14",
+    "sweetalert2": "^11.7.1",
     "sweetalert2-react-content": "^5.0.7",
     "web-vitals": "^3.1.0"
   },
