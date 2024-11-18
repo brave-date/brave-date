@@ -26,7 +26,7 @@
     "react-phone-input-2": "^2.15.1",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^3.0.1",
     "react-scroll-to-bottom": "^4.2.0",
     "react-slick": "^0.29.0",
     "react-tinder-card": "^1.6.2",
@@ -34,13 +34,13 @@
     "redux-thunk": "^2.4.2",
     "remark-gfm": "^3.0.1",
     "slick-carousel": "^1.8.1",
-    "sweetalert2": "^11.6.14",
+    "sweetalert2": "^11.6.13",
     "sweetalert2-react-content": "^5.0.7",
     "web-vitals": "^3.1.0"
   },
   "scripts": {
-    "start": "react-scripts --max_old_space_size=4096 start",
-    "build": "react-scripts --max_old_space_size=4096 build",
+    "start": "react-scripts --openssl-legacy-provider --max_old_space_size=4096 start",
+    "build": "react-scripts --openssl-legacy-provider --max_old_space_size=4096 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
