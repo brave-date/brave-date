@@ -1,7 +1,6 @@
 import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import { Avatar } from "@mui/material";
-import { Server } from "../../utils";
 import "./style.css";
 
 const CustomAvatar = forwardRef(
@@ -11,7 +10,7 @@ const CustomAvatar = forwardRef(
         ? alt.substr(0, phCharLength).toUpperCase()
         : null;
 
-    src = `${Server.endpoint}/${src}`;
+    src = `${src}`;
     return (
       <Avatar ref={ref} className="avatar-root" src={src} alt={alt} {...rest}>
         {!src && !children && alt ? placeHolderChar : children}

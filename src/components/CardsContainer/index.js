@@ -8,7 +8,6 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import BoltIcon from "@mui/icons-material/Bolt";
 import { users } from "../../redux/matchReducer/selectors";
 import { useDispatch, useSelector } from "react-redux";
-import { Server } from "../../utils";
 import { setSelectedMatch } from "../../api/MatchAPI";
 import moment from "moment";
 
@@ -85,7 +84,7 @@ const CardsContainer = () => {
               <Box
                 className="card"
                 style={{
-                  backgroundImage: `url(${Server.endpoint}/${character.profile_picture})`,
+                  backgroundImage: character.profile_picture,
                 }}
               >
                 <Box
