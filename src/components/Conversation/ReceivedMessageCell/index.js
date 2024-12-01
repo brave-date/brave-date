@@ -5,7 +5,6 @@ import clsx from "clsx";
 import CustomImage from "../../CustomImage";
 import CustomAvatar from "../../CustomAvatar";
 import MediaViewer from "../../MediaViewer";
-import { Server } from "../../../utils";
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -42,7 +41,7 @@ const ReceivedMessageCell = ({ conversation, user }) => {
                   setPosition(0);
                 }}
                 key={conversation.id}
-                src={`${Server.endpoint}${conversation.media}`}
+                src={conversation.media}
                 alt={"image"}
                 height={100}
                 width={100}
@@ -50,7 +49,7 @@ const ReceivedMessageCell = ({ conversation, user }) => {
               <MediaViewer
                 position={position}
                 medias={{
-                  preview: `${Server.endpoint}${conversation.media}`,
+                  preview: conversation.media,
                   name: "image",
                 }}
                 handleClose={handleClose}

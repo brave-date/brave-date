@@ -9,8 +9,6 @@ import remarkGfm from "remark-gfm";
 import parse from "html-react-parser";
 import { checkHtml } from "../../Helper";
 
-import { Server } from "../../../utils";
-
 const SentMessageCell = ({ conversation }) => {
   const [position, setPosition] = useState(-1);
   const handleClose = () => {
@@ -38,7 +36,7 @@ const SentMessageCell = ({ conversation }) => {
                   setPosition(0);
                 }}
                 key={conversation.id}
-                src={`${Server.endpoint}${conversation.media}`}
+                src={conversation.media}
                 alt={"image"}
                 height={100}
                 width={100}
@@ -46,7 +44,7 @@ const SentMessageCell = ({ conversation }) => {
               <MediaViewer
                 position={position}
                 medias={{
-                  preview: `${Server.endpoint}${conversation.media}`,
+                  preview: conversation.media,
                   name: "image",
                 }}
                 handleClose={handleClose}
